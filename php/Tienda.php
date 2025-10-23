@@ -6,10 +6,14 @@
         private string $Pais;
 
         //Constructor
-        public function __construct(int $pTiendaId, string $pDireccion, string $pPais) {
+        public function __construct(int $pTiendaId = null, string $pDireccion = "", string $pPais = "") {
             $this->TiendaId = $pTiendaId;
             $this->Direccion = $pDireccion;
-            $this->Pais = $pPais;
+            if ($Pais!= "España" || $Pais != "Portugal"){
+                $this->Pais = null;
+            }else{
+                $this->Pais = $pPais;
+            }
         }
         
         //Getters y Setters
