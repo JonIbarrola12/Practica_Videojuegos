@@ -9,7 +9,7 @@
         public function __construct(int $pTiendaId = null, string $pDireccion = "", string $pPais = "") {
             $this->TiendaId = $pTiendaId;
             $this->Direccion = $pDireccion;
-            if ($Pais!= "España" || $Pais != "Portugal"){
+            if ($pPais!= "España" || $pPais != "Portugal"){
                 $this->Pais = null;
             }else{
                 $this->Pais = $pPais;
@@ -27,15 +27,15 @@
         public function getDireccion(){
             return $this->Direccion;
         }
-        public function setDireccion(int $pDireccion){
+        public function setDireccion(string $pDireccion){
             $this->Direccion = $pDireccion;
         }
 
         public function getPais(){
             return $this->Pais;
         }
-        public function setPais(int $pPais){
-            if ($Pais!= "España" || $Pais != "Portugal"){
+        public function setPais(string $pPais){
+            if ($pPais!= "España" || $pPais != "Portugal"){
                 $this->Pais = null;
             }else{
                 $this->Pais = $pPais;
