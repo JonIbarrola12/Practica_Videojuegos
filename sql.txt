@@ -7,12 +7,12 @@ https://www.apachefriends.org/es/index.html
 
 3. Accede a http://localhost/phpmyadmin/ .
 
-4. En el apartado de SQL deberas ejecutar los siguientes codigos:
-    4.1 Para crear la base de datos ejecuta el siguiente codigo
+4.1 En el apartado de SQL deberas ejecutar los siguientes codigos:
+    4.1.1 Para crear la base de datos ejecuta el siguiente codigo
 
  - Create database GAME;
 
-    4.2 Para crear la las distintas tablas de nuestra base de datos ejecutaremos los siguientes codigos:
+    4.1.2 Para crear la las distintas tablas de nuestra base de datos ejecutaremos los siguientes codigos:
  
  - Create table Tiendas (
     TiendaId int auto_increment Primary Key,
@@ -68,6 +68,7 @@ https://www.apachefriends.org/es/index.html
     Foreign Key (TrabajadorId) References Trabajadores(TrabajadorId),
     Foreign Key (CopiaVideojuegoId) References CopiasVideojuegos(CopiaVideojuegoId)
  );
+4.2 En el apartado de importar de myphpAdmin importa el archivo que se encuentra en la carpeta Database
 
 5. Tambien tendras que crear el usuario alumno1 para poder acceder a la base de datos. Para ello, ejecutaras los siguiente comandos en el apartado de SQL:
  - CREATE USER 'alumno1'@'localhost' IDENTIFIED BY 'alumno1';
