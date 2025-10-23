@@ -16,8 +16,8 @@ https://www.apachefriends.org/es/index.html
  
  - Create table Tiendas (
     TiendaId int auto_increment Primary Key,
-    Direccion varchar(100),
-    Pais varchar(50)
+    Direccion varchar(100) Not Null,
+    Pais ENUM('España','Portugal') Not Null Default 'España'
     );
     
  - Create table Trabajadores (
@@ -28,7 +28,7 @@ https://www.apachefriends.org/es/index.html
     FechaNacimiento date,
     Email varchar(75),
     Usuario varchar(40) Unique Not Null,
-    Contrasena varchar(20) Not Null,
+    Contrasena varchar(225) Not Null,
     TiendaId int Not Null,
     Foreign Key (TiendaId) References Tiendas(TiendaId)
  );
@@ -40,9 +40,9 @@ https://www.apachefriends.org/es/index.html
  );
 
  - Create table Videojuegos (
-    VideosjuegoId int auto_increment Primary Key,
-    Titulo varchar(75),
-    AnioPublicacion date,
+    VideojuegoId int auto_increment Primary Key,
+    Titulo varchar(75) Not Null,
+    AnioPublicacion int,
     EstudioDesarrollo varchar(50),
     Plataforma varchar(40)
  );
@@ -52,7 +52,7 @@ https://www.apachefriends.org/es/index.html
     PrecioNuevo DECIMAL(8,2),
     PrecioSeminuevo DECIMAL(8,2),
     PrecioCompraGame DECIMAL(8,2),
-    Unidades int,
+    Unidades int Default 0,
     VideojuegoId int Not Null,
     Foreign Key (VideojuegoId) References Videojuegos(VideojuegoId),
     AlmacenId int Not Null,
@@ -61,11 +61,11 @@ https://www.apachefriends.org/es/index.html
 
  - Create table Modificaciones (
     ModificacionId int auto_increment Primary Key,
-    TipoMovimiento varchar(50),
-    Fecha date,
+    TipoMovimiento varchar(50) Not Null,
+    Fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     TrabajadorId int Not Null,
-    Foreign Key (TrabajadorId) References Trabajadores(TrabajadorId),
     CopiaVideojuegoId int Not Null,
+    Foreign Key (TrabajadorId) References Trabajadores(TrabajadorId),
     Foreign Key (CopiaVideojuegoId) References CopiasVideojuegos(CopiaVideojuegoId)
  );
 
