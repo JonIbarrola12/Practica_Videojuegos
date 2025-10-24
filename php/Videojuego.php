@@ -2,15 +2,15 @@
     class Videojuego{
         //Atributos
         private int $VideojuegoId;
-        private string $Tilulo;
+        private string $Titulo;
         private int $AnioPublicacion;
         private string $EstudioDesarrollo;
         private string $Plataforma;
 
         //Constructor
-        public function __construct(int $pVideojuegoId = null, string $pTilulo = "", int $pAnioPublicacionstring = 0, string $pEstudioDesarrollo = "", string $pPlataforma = "" ) {
+        public function __construct(int $pVideojuegoId = null, string $pTitulo = "", int $pAnioPublicacion = 0, string $pEstudioDesarrollo = "", string $pPlataforma = "" ) {
             $this->VideojuegoId = $pVideojuegoId;
-            $this->Tilulo = $pTitulo;
+            $this->Titulo = $pTitulo;
             $this->AnioPublicacion = $pAnioPublicacion;
             $this->EstudioDesarrollo = $pEstudioDesarrollo;
             $this->Plataforma = $pPlataforma;
@@ -24,7 +24,7 @@
         }
 
         public function getTitulo(){
-            return $this->Tilulo;
+            return $this->Titulo;
         }
         public function setTitulo(string $pTitulo){
             $this->Titulo = $pTitulo;
