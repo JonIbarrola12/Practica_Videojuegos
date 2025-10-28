@@ -51,7 +51,7 @@
         public function getUnidades(){
             return $this->Unidades;
         }
-        public function setUnidades(int $Unidades){
+        public function setUnidades(int $pUnidades){
             $this->Unidades = $pUnidades;
         }
 
