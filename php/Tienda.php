@@ -10,7 +10,7 @@
             $this->TiendaId = $pTiendaId;
             $this->Direccion = $pDireccion;
             if ($pPais!= "España" || $pPais != "Portugal"){
-                $this->Pais = null;
+                $this->Pais = "España";
             }else{
                 $this->Pais = $pPais;
             }
@@ -36,7 +36,7 @@
         }
         public function setPais(string $pPais){
             if ($pPais!= "España" || $pPais != "Portugal"){
-                $this->Pais = null;
+                $this->Pais = "España";
             }else{
                 $this->Pais = $pPais;
             }
