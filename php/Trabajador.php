@@ -5,14 +5,14 @@
         private string $Nombre;
         private string $Apellidos;
         private string $Dni;
-        private date $FechaNacimiento;
+        private DateTime $FechaNacimiento;
         private string $Email;
         private string $Usuario;
         private string $Contrasena;
         private int $TiendaId;
 
         //Constructor
-        public function __construct(int $pTrabajadorId = null, string $pNombre = "", string $pApellidos = "",string $pDni = "", date $pFechaNacimiento = new date(), string $pEmail = "", string $pUsuario = "", string $pContrasena = "", int $pTiendaId = null) {
+        public function __construct(int $pTrabajadorId = null, string $pNombre = "", string $pApellidos = "",string $pDni = "", DateTime $pFechaNacimiento = new DateTime(), string $pEmail = "", string $pUsuario = "", string $pContrasena = "", int $pTiendaId = null) {
             $this->TrabajadorId = $pTrabajadorId;
             $this->Nombre = $pNombre;
             $this->Apellidos = $pApellidos;
@@ -56,7 +56,7 @@
         public function getFechaNacimiento(){
             return $this->FechaNacimiento;
         }
-        public function setFechaNacimiento(date $pFechaNacimiento){
+        public function setFechaNacimiento(DateTime $pFechaNacimiento){
             $this->FechaNacimiento = $pFechaNacimiento;
         }
 
