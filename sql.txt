@@ -70,8 +70,14 @@ https://www.apachefriends.org/es/index.html
  );
 4.2 En el apartado de importar de myphpAdmin importa el archivo que se encuentra en la carpeta Database
 
-5. Tambien tendras que crear el usuario alumno1 para poder acceder a la base de datos. Para ello, ejecutaras los siguiente comandos en el apartado de SQL:
- - CREATE USER 'alumno1'@'localhost' IDENTIFIED BY 'alumno1';
- - GRANT ALL PRIVILEGES ON *.* TO 'alumno1'@'localhost';
-
+5. Tambien tendras que crear el usuario root para poder acceder a la base de datos. Para ello, ejecutaras los siguiente comandos en el apartado de SQL:
+   5.1 Si no tenes el usuario root :
+   - CREATE USER 'root'@'localhost' IDENTIFIED BY 'admin';
+   - GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost';
+   - FLUSH PRIVILEGES;
+   5.2 Si ya teienes el usuario root : 
+    - ALTER USER 'root'@'localhost' IDENTIFIED BY 'admin';
+    - GRANT ALL PRIVILEGES ON *.* TO 'root'@'localhost' WITH GRANT OPTION;
+    - FLUSH PRIVILEGES;
+ 
 6. Con esto ya deberias de poder utilizar la aplicacion con total normalidad.
