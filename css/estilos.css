@@ -1,0 +1,15 @@
+#carouselExampleControls {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#carouselExampleControls .carousel-item img {
+  max-height: 450px;
+  object-fit: cover;
+  width: 100%;
+}
+
+#carouselExampleControls .carousel-control-prev,
+#carouselExampleControls .carousel-control-next {
+  width: 5%;
+}
