@@ -1,0 +1,51 @@
+#carouselExampleControls {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+#carouselExampleControls .carousel-item img {
+  max-height: 450px;
+  object-fit: cover;
+  width: 100%;
+}
+
+#carouselExampleControls .carousel-control-prev,
+#carouselExampleControls .carousel-control-next {
+  width: 5%;
+}
+
+.btn-purple {
+  background-color: #B90088; 
+  color: white;              
+  border: none;              
+}
+
+.btn-purple:hover {
+  background-color: #A30077; 
+  color: white;
+}
+
+.btn-outline-purple {
+  background-color: transparent !important;
+  color: #B90088 !important;
+  border: 2px solid #B90088 !important;
+}
+
+.btn-outline-purple:hover {
+  background-color: #B90088 !important;
+  color: white !important;
+}
+
+.bg-purple{
+    background-color: #B90088 !important;
+}
+
+.link-purple {
+  color: #B90088 !important;
+  text-decoration: none;
+}
+
+.link-purple:hover {
+  color: #9f0077 !important;
+  text-decoration: underline;
+}
