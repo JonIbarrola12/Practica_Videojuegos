@@ -13,3 +13,39 @@
 #carouselExampleControls .carousel-control-next {
   width: 5%;
 }
+
+.btn-purple {
+  background-color: #B90088; 
+  color: white;              
+  border: none;              
+}
+
+.btn-purple:hover {
+  background-color: #A30077; 
+  color: white;
+}
+
+.btn-outline-purple {
+  background-color: transparent !important;
+  color: #B90088 !important;
+  border: 2px solid #B90088 !important;
+}
+
+.btn-outline-purple:hover {
+  background-color: #B90088 !important;
+  color: white !important;
+}
+
+.bg-purple{
+    background-color: #B90088 !important;
+}
+
+.link-purple {
+  color: #B90088 !important;
+  text-decoration: none;
+}
+
+.link-purple:hover {
+  color: #9f0077 !important;
+  text-decoration: underline;
+}

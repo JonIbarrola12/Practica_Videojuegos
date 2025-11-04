@@ -8,7 +8,7 @@
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        <link href="./css/estilos.css" rel="stylesheet"/>
+        
         <!-- Bootstrap CSS v5.2.1 -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -18,6 +18,8 @@
         />
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+        <link href="./css/estilos.css" rel="stylesheet"/>
 
     </head>
 
@@ -36,8 +38,8 @@
                 </ul>
                 <div class="col-md-3 text-end">
                     <!--Editar Para que aparezca el Usuario Registrado-->
-                    <button type="button" class="btn btn-outline-primary me-2">Iniciar Sesion</button>
-                    <button type="button" class="btn btn-primary">Registrarse</button>
+                    <button type="button" class="btn btn-outline-purple me-2">Iniciar Sesion</button>
+                    <button type="button" class="btn btn-purple">Registrarse</button>
                 </div>
                 </header>
             </div>
@@ -67,56 +69,58 @@
             <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
             <div class="feature col">
                 <div class="d-flex align-items-center">
-                    <div class="feature-icon d-inline-flex bg-primary bg-gradient rounded p-2 me-3">
+                    <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
                         <i class="bi bi-stack fs-4 text-white"></i>
                     </div>
                     <h2 class="m-0">Inventario</h2>
                 </div>
                 <p>Pagina para manejar el inventario de la tienda.</p>
-                <a href="#" class="icon-link">
+                <a href="#" class="icon-link link-purple">
                 Ir a Inventario
-                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
                 </a>
             </div>
             <div class="feature col">
                 <div class="d-flex align-items-center">
-                    <div class="feature-icon d-inline-flex bg-primary bg-gradient rounded p-2 me-3">
+                    <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
                         <i class="bi bi-stack fs-4 text-white"></i>
                     </div>
                     <h2 class="m-0">Gestionar Empleados</h2>
                 </div>
                 <p>Pagina para gestionar los empleados de la tienda.</p>
-                <a href="#" class="icon-link">
+                <a href="#" class="icon-link link-purple">
                 Ir a Gestionar Empleados 
-                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
                 </a>
             </div>
             <div class="feature col">
                 <div class="d-flex align-items-center">
-                    <div class="feature-icon d-inline-flex bg-primary bg-gradient rounded p-2 me-3">
+                    <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
                         <i class="bi bi-stack fs-4 text-white"></i>
                     </div>
                     <h2 class="m-0">Añadir Videojuegos</h2>
                 </div>
                 <p>Pagina para añadir Videojuegos a todas las tiendas de GAME.</p>
-                <a href="#" class="icon-link">
-                Ir a Inventario 
-                <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"></use></svg>
+                <a href="#" class="icon-link link-purple">
+                Ir a Añadir Videojuegos 
                 </a>
             </div>
             </div>
         </div>
-        <!-- Footer -->
-        <footer class="bg-dark text-white pt-4">
+        <footer class="bg-dark text-white pt-4 pb-3">
             <div class="container">
-                <div class="row ">
-                <div class="col-md-6 mb-3">
-                    <h4>GAME</h4>
-                    <p>© 2025 Todos los derechos reservados.</p>
+
+                <!-- Sección superior: GAME y Enlaces -->
+                <div class="d-flex flex-column flex-md-row justify-content-around align-items-start text-center text-md-start mb-4">
+                
+                <!-- Columna izquierda -->
+                <div class="mb-3 mb-md-0">
+                    <h4 class="fw-bold mb-1">GAME</h4>
+                    <p class="mb-0">© 2025 Todos los derechos reservados.</p>
                 </div>
-                <div class="col-md-6 mb-3">
-                    <h5>Enlaces</h5>
-                    <ul class="list-unstyled">
+
+                <!-- Columna derecha -->
+                <div class="mb-3 mb-md-0">
+                    <h5 class="fw-semibold mb-2">Enlaces</h5>
+                    <ul class="list-unstyled mb-0">
                     <li><a href="./index.html" class="text-white text-decoration-none">Inicio</a></li>
                     <li><a href="./sobreNosotros" class="text-white text-decoration-none">Acerca de</a></li>
                     <li><a href="./contacto" class="text-white text-decoration-none">Contacto</a></li>
@@ -124,12 +128,17 @@
                 </div>
 
                 </div>
-                <div class="text-center py-3">
-                    Síguenos en:
-                    <a href="#" class="text-white ms-2"><i class="bi bi-facebook"></i>Facebook</a>
-                    <a href="#" class="text-white ms-2"><i class="bi bi-twitter"></i>Twitter</a>
-                    <a href="#" class="text-white ms-2"><i class="bi bi-instagram"></i>Instagram</a>
+
+                <hr class="border-secondary">
+
+                <!-- Sección inferior: redes sociales -->
+                <div class="text-center pt-2">
+                <h5 class="fw-semibold mb-3">Redes Sociales:</h5>
+                <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i>Facebook</a>
+                <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i>Twitter</a>
+                <a href="#" class="text-white"><i class="bi bi-instagram"></i>Instagram</a>
                 </div>
+
             </div>
         </footer>
 
