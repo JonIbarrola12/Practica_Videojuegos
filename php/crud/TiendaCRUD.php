@@ -1,9 +1,9 @@
 <?php
     require_once 'conexion.php';
-    class TrabajadoresCRUD{
+    class TiendaCRUD{
         public static function recibirRegistros(){
             global $conexion;
-            $selectSql = "Select * from trabajadores";
+            $selectSql = "Select * from tiendas";
             try{
                 $query = mysqli_query($conexion,$selectSql);
                 if (!$query) {
@@ -21,37 +21,23 @@
                 return [];
             }
         }
-        public static function anadirTrabajador(Trabajador $trabajador){
+        public static function añadirTienda(Tienda $tienda){
             global $conexion;
-            $insertSql = "Insert into trabajadores (Nombre,Apellidos,Dni,FechaNacimiento,Email,Usuario,Contrasena,TiendaId) values (?,?,?,?,?,?,?,?)";
+            $insertSql = "Insert into tiendas (Direccion, Pais) values (?,?)";
             try {
                 $stmt = mysqli_prepare($conexion, $insertSql);
                 if (!$stmt) {
                     throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
                 }
 
-                $nombre = $trabajador->getNombre();
-                $apellidos = $trabajador->getApellidos();
-                $dni = $trabajador->getDni();
-                $fechaNacimiento = $trabajador->getFechaNacimiento()->format('Y-m-d');
-                $email = $trabajador->getEmail();
-                $usuario = $trabajador->getUsuario();
-                $contrasena = $trabajador->getContrasena();
-                $tiendaId = $trabajador->getTiendaId();
-
-                $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+                $direccion = $tienda->getDireccion();
+                $pais = $tienda->getPais();
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "sssssssi",
-                    $nombre,
-                    $apellidos,
-                    $dni,
-                    $fechaNacimiento,
-                    $email,
-                    $usuario,
-                    $contrasena,
-                    $tiendaId
+                    "ss",
+                    $direccion,
+                    $pais
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -63,12 +49,12 @@
                 mysqli_stmt_close($stmt);
 
             } catch (Exception $e) {
-                echo "Error al añadir trabajador: " . $e->getMessage();
+                echo "Error al añadir tienda: " . $e->getMessage();
             }
         }
-        public static function eliminarTrabajador(string $usuario){
+        public static function eliminarTienda(int $TiendaId){
             global $conexion;
-            $deleteSql = "Delete from trabajadores where Usuario = ? ";
+            $deleteSql = "Delete from tiendas where TiendaId = ?";
 
             try {
                 $stmt = mysqli_prepare($conexion, $deleteSql);
@@ -78,8 +64,8 @@
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "s",
-                    $usuario
+                    "i",
+                    $TiendaId,
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -90,37 +76,28 @@
                 mysqli_stmt_close($stmt);
 
             } catch (Exception $e) {
-                echo "Error al eliminar trabajador: " . $e->getMessage();
+                echo "Error al eliminar tienda: " . $e->getMessage();
             }
         }
-        public static function modificarTrabajador(Trabajador $trabajador, string $usuario){
+        public static function modificarTienda(Tienda $tienda, int $TiendaId){
             global $conexion;
-
-            $modificarSql = "UPDATE trabajadores SET Nombre = ?, Apellidos = ?, Dni = ?, FechaNacimiento = ?, Email = ?, TiendaId = ? WHERE Usuario = ?";
+            $modificarSql = "Update tiendas set Direccion = ?, Pais = ? where TiendaId = ?";
 
             try {
                 $stmt = mysqli_prepare($conexion, $modificarSql);
                 if (!$stmt) {
                     throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
                 }
-
-                $nombre = $trabajador->getNombre();
-                $apellidos = $trabajador->getApellidos();
-                $dni = $trabajador->getDni();
-                $fechaNacimiento = $trabajador->getFechaNacimiento()->format('Y-m-d');
-                $email = $trabajador->getEmail();
-                $tiendaId = $trabajador->getTiendaId();
+                $TiendaId = $tienda->getTiendaId();
+                $direccion = $tienda->getDireccion();
+                $pais = $tienda->getPais();
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "sssssis", 
-                    $nombre,
-                    $apellidos,
-                    $dni,
-                    $fechaNacimiento,
-                    $email,
-                    $tiendaId,
-                    $usuario
+                    "ssi",
+                    $direccion,
+                    $pais,
+                    $TiendaId,
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -132,7 +109,7 @@
                 mysqli_stmt_close($stmt);
 
             } catch (Exception $e) {
-                echo "Error al modificar trabajador: " . $e->getMessage();
+                echo "Error al modificar tienda: " . $e->getMessage();
             }
         }
         
