@@ -23,7 +23,7 @@
         }
         public static function anadirTrabajador(Trabajador $trabajador){
             global $conexion;
-            $insertSql = "Insert into trabajadores (Nombre,Apellidos,Dni,FechaNacimiento,Email,Usuario,Contraseña,TiendaId) values (?,?,?,?,?,?,?,?)";
+            $insertSql = "Insert into trabajadores (Nombre,Apellidos,Dni,FechaNacimiento,Email,Usuario,Contrasena,TiendaId) values (?,?,?,?,?,?,?,?)";
             try {
                 $stmt = mysqli_prepare($conexion, $insertSql);
                 if (!$stmt) {
@@ -33,7 +33,7 @@
                 $nombre = $trabajador->getNombre();
                 $apellidos = $trabajador->getApellidos();
                 $dni = $trabajador->getDni();
-                $fechaNacimiento = $trabajador->getFechaNacimiento();
+                $fechaNacimiento = $trabajador->getFechaNacimiento()->format('Y-m-d');
                 $email = $trabajador->getEmail();
                 $usuario = $trabajador->getUsuario();
                 $contrasena = $trabajador->getContrasena();
@@ -95,7 +95,8 @@
         }
         public static function modificarTrabajador(Trabajador $trabajador, string $usuario){
             global $conexion;
-            $modificarSql = "Update trabajadores set Nombre = ?, Apellido = ?, Dni = ?, FechaNacimiento = ?, Email = ? where Usuario = ?";
+
+            $modificarSql = "UPDATE trabajadores SET Nombre = ?, Apellidos = ?, Dni = ?, FechaNacimiento = ?, Email = ?, TiendaId = ? WHERE Usuario = ?";
 
             try {
                 $stmt = mysqli_prepare($conexion, $modificarSql);
@@ -106,19 +107,20 @@
                 $nombre = $trabajador->getNombre();
                 $apellidos = $trabajador->getApellidos();
                 $dni = $trabajador->getDni();
-                $fechaNacimiento = $trabajador->getFechaNacimiento();
+                $fechaNacimiento = $trabajador->getFechaNacimiento()->format('Y-m-d');
                 $email = $trabajador->getEmail();
-                $usuario = $trabajador->getUsuario();
+                $tiendaId = $trabajador->getTiendaId();
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "ssssss",
+                    "sssssis", 
                     $nombre,
                     $apellidos,
                     $dni,
                     $fechaNacimiento,
                     $email,
-                    $usuario,
+                    $tiendaId,
+                    $usuario   
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
