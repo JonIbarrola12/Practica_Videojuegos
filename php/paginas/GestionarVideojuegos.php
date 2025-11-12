@@ -1,6 +1,6 @@
 <?php
-require_once("conexion.php");
-require_once("funcionesVideojuego.php");
+require_once("../crud/conexion.php");
+require_once("../crud/VideojuegosCRUD.php");
 session_start();
 
 // Usuario simulado
