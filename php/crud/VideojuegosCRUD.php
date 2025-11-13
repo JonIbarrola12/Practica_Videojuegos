@@ -14,18 +14,24 @@ function insertarVideojuego($conexion, $titulo, $anio, $estudio, $plataforma, $t
 }
 
 function eliminarVideojuego($conexion, $idJuego, $trabajadorId) {
+    // Registrar la eliminación antes de borrar
     registrarModificacion($conexion, 'Eliminar', $trabajadorId, $idJuego);
 
+    // Borrar las copias relacionadas
     mysqli_query($conexion, "DELETE FROM copiasvideojuegos WHERE VideojuegoId = $idJuego");
+
+    // Borrar el videojuego
     mysqli_query($conexion, "DELETE FROM videojuegos WHERE VideojuegoId = $idJuego");
 
-    return "Videojuego y sus copias eliminados con éxito y registrados en modificaciones.";
+    return "Videojuego eliminado y registrado en modificaciones.";
 }
 
 function registrarModificacion($conexion, $tipo, $trabajadorId, $idJuego) {
     $query = "INSERT INTO modificaciones (TipoMovimiento, Fecha, TrabajadorId, VideojuegoId)
-            VALUES ('$tipo', NOW(), $trabajadorId, $idJuego)";
-    mysqli_query($conexion, $query);
+              VALUES ('$tipo', NOW(), $trabajadorId, $idJuego)";
+    if (!mysqli_query($conexion, $query)) {
+        echo "Error al registrar modificación: " . mysqli_error($conexion);
+    }
 }
 
 function obtenerVideojuegos($conexion) {
