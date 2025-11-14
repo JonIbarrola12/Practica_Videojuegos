@@ -37,6 +37,7 @@ class VideojuegosCRUD{
                     throw new Exception("Error al ejecutar el INSERT: " . mysqli_stmt_error($stmt));
                 }
 
+
                 mysqli_stmt_close($stmt);
                 $videojuegoId = mysqli_insert_id($conexion);
                 $videojuego->setVideojuegoId($videojuegoId);
@@ -62,7 +63,6 @@ class VideojuegosCRUD{
                     "i",
                     $videojuegoId
                 );
-
                 $resultado = mysqli_stmt_execute($stmt);
 
                 if (!$resultado) {
