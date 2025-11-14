@@ -16,31 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `almacenes`
---
-
-DROP TABLE IF EXISTS `almacenes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `almacenes` (
-  `AlmacenId` int(11) NOT NULL AUTO_INCREMENT,
-  `TiendaId` int(11) NOT NULL,
-  PRIMARY KEY (`AlmacenId`),
-  KEY `TiendaId` (`TiendaId`),
-  CONSTRAINT `almacenes_ibfk_1` FOREIGN KEY (`TiendaId`) REFERENCES `tiendas` (`TiendaId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `almacenes`
---
-
-LOCK TABLES `almacenes` WRITE;
-/*!40000 ALTER TABLE `almacenes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `almacenes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `copiasvideojuegos`
 --
 
@@ -54,12 +29,12 @@ CREATE TABLE `copiasvideojuegos` (
   `PrecioCompraGame` decimal(8,2) DEFAULT NULL,
   `Unidades` int(11) DEFAULT '0',
   `VideojuegoId` int(11) NOT NULL,
-  `AlmacenId` int(11) NOT NULL,
+  `TiendaId` int(11) NOT NULL,
   PRIMARY KEY (`CopiaVideojuegoId`),
   KEY `VideojuegoId` (`VideojuegoId`),
-  KEY `AlmacenId` (`AlmacenId`),
+  KEY `TiendaId` (`TiendaId`),
   CONSTRAINT `copiasvideojuegos_ibfk_1` FOREIGN KEY (`VideojuegoId`) REFERENCES `videojuegos` (`VideojuegoId`),
-  CONSTRAINT `copiasvideojuegos_ibfk_2` FOREIGN KEY (`AlmacenId`) REFERENCES `almacenes` (`AlmacenId`)
+  CONSTRAINT `fk_copias_tienda` FOREIGN KEY (`TiendaId`) REFERENCES `tiendas` (`TiendaId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -91,7 +66,7 @@ CREATE TABLE `modificaciones` (
   KEY `modificaciones_ibfk_2` (`CopiaVideojuegoId`),
   CONSTRAINT `modificaciones_ibfk_1` FOREIGN KEY (`TrabajadorId`) REFERENCES `trabajadores` (`TrabajadorId`),
   CONSTRAINT `modificaciones_ibfk_2` FOREIGN KEY (`CopiaVideojuegoId`) REFERENCES `copiasvideojuegos` (`CopiaVideojuegoId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -100,7 +75,7 @@ CREATE TABLE `modificaciones` (
 
 LOCK TABLES `modificaciones` WRITE;
 /*!40000 ALTER TABLE `modificaciones` DISABLE KEYS */;
-INSERT INTO `modificaciones` VALUES (1,'Insertar','2025-11-12 22:57:45',2,NULL,5),(2,'Eliminar','2025-11-12 22:58:09',2,NULL,5);
+INSERT INTO `modificaciones` VALUES (1,'Insertar','2025-11-12 22:57:45',2,NULL,5),(2,'Eliminar','2025-11-12 22:58:09',2,NULL,5),(3,'Insertar','2025-11-13 09:28:58',2,NULL,6),(4,'Eliminar','2025-11-13 09:29:02',2,NULL,6),(5,'Insertar','2025-11-13 09:30:20',2,NULL,7);
 /*!40000 ALTER TABLE `modificaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +153,7 @@ CREATE TABLE `videojuegos` (
   `EstudioDesarrollo` varchar(50) DEFAULT NULL,
   `Plataforma` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`VideojuegoId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,6 +162,7 @@ CREATE TABLE `videojuegos` (
 
 LOCK TABLES `videojuegos` WRITE;
 /*!40000 ALTER TABLE `videojuegos` DISABLE KEYS */;
+INSERT INTO `videojuegos` VALUES (7,'avatoa',2001,'ea','pc');
 /*!40000 ALTER TABLE `videojuegos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -199,4 +175,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-13  0:04:58
+-- Dump completed on 2025-11-14  9:26:47
