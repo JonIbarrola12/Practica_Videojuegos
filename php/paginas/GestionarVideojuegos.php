@@ -1,6 +1,8 @@
 <?php
 require_once("../crud/conexion.php");
 require_once("../crud/VideojuegosCRUD.php");
+require_once("../clases/Videojuego.php");
+
 session_start();
 
 // Usuario simulado
@@ -10,33 +12,29 @@ $mensaje = "";
 
 // Insertar videojuego
 if (isset($_POST['insertar'])) {
-    $mensaje = insertarVideojuego(
-        $conexion,
-        $_POST['titulo'],
-        $_POST['anio'],
-        $_POST['estudio'],
-        $_POST['plataforma'],
-        $_SESSION['TrabajadorId']
+    $videojuego = new Videojuego(null, $_POST['titulo'], $_POST['anio'], $_POST['estudio'], $_POST['plataforma']);
+    VideojuegosCRUD::anadirVideojuego(
+        $videojuego
     );
+    $mensaje = "Videojuego " . $videojuego->getTitulo() . " creado correctamente";
 }
 
 // Eliminar videojuego
 if (isset($_POST['eliminar'])) {
-    $mensaje = eliminarVideojuego(
-        $conexion,
+    VideojuegosCRUD::eliminarVideojuego(
         $_POST['videojuegoId'],
-        $_SESSION['TrabajadorId']
     );
+    $mensaje = "Videojuego eliminado correctamente";
 }
 
 // Obtener videojuegos actualizados
-$videojuegos = obtenerVideojuegos($conexion);
+$videojuegos = VideojuegosCRUD::recibirRegistros();
 ?>
 
 <!doctype html>
 <html lang="en">
     <head>
-        <title>Inventario</title>
+        <title>Gestionar Videojuegos</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
@@ -101,7 +99,7 @@ $videojuegos = obtenerVideojuegos($conexion);
                     <?php 
                     if ($videojuegos && mysqli_num_rows($videojuegos) > 0):
                         while ($row = $videojuegos->fetch_assoc()): ?>
-                            <option value="<?= $row['VideojuegoId'] ?>"><?= htmlspecialchars($row['Titulo']) ?></option>
+                            <option value="<?= $row['VideojuegoId'] ?>"><?= "Videojuego: " . htmlspecialchars($row['Titulo']) . " Plataforma: " . htmlspecialchars($row['Plataforma']) ?></option>
                         <?php endwhile;
                     else: ?>
                         <option value="">No hay videojuegos disponibles</option>
