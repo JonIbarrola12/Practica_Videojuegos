@@ -21,29 +21,29 @@
                 return [];
             }
         }
-        public static function añadirModificacion(Modificacion $modificacion){
+        public static function anadirModificacion(Modificacion $modificacion){
             global $conexion;
-            $insertSql = "Insert into modificaciones (ModificacionId,TipoMovimiento,Fecha,TrabajadorId,CopiaVideoJuegoId) values (?,?,?,?,?)";
+            $insertSql = "Insert into modificaciones (TipoMovimiento,Fecha,TrabajadorId,CopiaVideoJuegoId,VideojuegoId) values (?,?,?,?,?)";
             try {
                 $stmt = mysqli_prepare($conexion, $insertSql);
                 if (!$stmt) {
                     throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
                 }
 
-                $ModificacionId = $modificacion->getModificacionId();
                 $TipoMovimiento = $modificacion->getTipoMovimiento();
-                $Fecha = $modificacion->getFecha();
+                $Fecha = $modificacion->getFecha()->format('Y-m-d H:i:s');
                 $TrabajadorId = $modificacion->getTrabajadorId();
                 $CopiaVideoJuegoId = $modificacion->getCopiaVideojuegoId();
+                $VideojuegoId = $modificacion->getVideojuegoId();
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "issii",
-                    $ModificacionId,
+                    "ssiii",
                     $TipoMovimiento,
                     $Fecha,
                     $TrabajadorId,
-                    $CopiaVideoJuegoId
+                    $CopiaVideoJuegoId,
+                    $VideojuegoId
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -96,7 +96,7 @@
                 }
 
                 $TipoMovimiento = $modificacion->getTipoMovimiento();
-                $Fecha = $modificacion->getFecha();
+                $Fecha = $modificacion->getFecha()->format('Y-m-d H:i:s');
                 $TrabajadorId = $modificacion->getTrabajadorId();
                 $CopiaVideoJuegoId = $modificacion->getCopiaVideojuegoId();
                 $ModificacionId = $modificacion->getModificacionId();
