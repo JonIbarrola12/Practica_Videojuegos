@@ -21,7 +21,7 @@
                 return [];
             }
         }
-        public static function añadirTienda(Tienda $tienda){
+        public static function anadirTienda(Tienda $tienda){
             global $conexion;
             $insertSql = "Insert into tiendas (Direccion, Pais) values (?,?)";
             try {
