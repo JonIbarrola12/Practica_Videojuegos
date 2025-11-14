@@ -1,19 +1,21 @@
 <?php
     class Modificacion{
         //Atributos
-        private int $ModificacionId;
+        private ?int $ModificacionId;
         private string $TipoMovimiento ;
         private DateTime $Fecha;
         private int $TrabajadorId;
-        private int $CopiaVideojuegoId;
+        private ?int $CopiaVideojuegoId;
+        private ?int $VideojuegoId;
 
         //Constructor
-        public function __construct(int $pModificacionId = null, string $pTipoMovimiento = "", DateTime $pFecha, int $pTrabajadorId = null, int $pCopiaVideojuegoId   ) {
+        public function __construct(?int $pModificacionId = null, string $pTipoMovimiento = "", ?int $pTrabajadorId = null, ?int $pCopiaVideojuegoId, ?int $pVideojuegoId   ) {
             $this->ModificacionId = $pModificacionId;
             $this->TipoMovimiento  = $pTipoMovimiento;
-            $this->Fecha = $pFecha;
+            $this->Fecha = new DateTime();
             $this->TrabajadorId = $pTrabajadorId;
             $this->CopiaVideojuegoId = $pCopiaVideojuegoId;
+            $this->VideojuegoId = $pVideojuegoId;
         }
         //Getters y Setters
 
@@ -50,6 +52,13 @@
         }
         public function setCopiaVideojuegoId(int $pCopiaVideojuegoId){
             $this->CopiaVideojuegoId = $pCopiaVideojuegoId;
+        }
+
+        public function getVideojuegoId(){
+            return $this->VideojuegoId;
+        }
+        public function setVideojuegoId(int $pVideojuegoId){
+            $this->VideojuegoId = $pVideojuegoId;
         }
     }
     ?>

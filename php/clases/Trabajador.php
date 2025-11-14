@@ -1,7 +1,7 @@
 <?php 
     class Trabajador {
         //Atributos
-        private int $TrabajadorId;
+        private ?int $TrabajadorId = null;
         private string $Nombre;
         private string $Apellidos;
         private string $Dni;
@@ -12,8 +12,7 @@
         private int $TiendaId;
 
         //Constructor
-        public function __construct(int $pTrabajadorId = null, string $pNombre = "", string $pApellidos = "",string $pDni = "", DateTime $pFechaNacimiento = new DateTime(), string $pEmail = "", string $pUsuario = "", string $pContrasena = "", int $pTiendaId = null) {
-            $this->TrabajadorId = $pTrabajadorId;
+        public function __construct(string $pNombre = "", string $pApellidos = "",string $pDni = "", DateTime $pFechaNacimiento = new DateTime(), string $pEmail = "", string $pUsuario = "", string $pContrasena = "", ?int $pTiendaId = null) {
             $this->Nombre = $pNombre;
             $this->Apellidos = $pApellidos;
             $this->Dni = $pDni;
@@ -22,6 +21,7 @@
             $this->Usuario = $pUsuario;
             $this->Contrasena = $pContrasena;
             $this->TiendaId = $pTiendaId;
+            $this->TrabajadorId = null;
         }
         
         //Getters y Setters

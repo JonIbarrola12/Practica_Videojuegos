@@ -21,7 +21,7 @@
                 return [];
             }
         }
-        public static function añadirAlmacen(Almacen $Almacen){
+        public static function anadirAlmacen(Almacen $Almacen){
             global $conexion;
             $insertSql = "Insert into almacenes (AlmacenId,TiendaId) values (?,?)";
             try {
