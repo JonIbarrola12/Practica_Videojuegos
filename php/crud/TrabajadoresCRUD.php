@@ -135,5 +135,9 @@
                 echo "Error al modificar trabajador: " . $e->getMessage();
             }
         }
+        public static function cuantostrabajadores(){
+            $trabajadores = self::recibirRegistros();
+            return count($trabajadores);
+        }
         
     }

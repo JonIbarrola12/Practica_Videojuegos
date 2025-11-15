@@ -19,22 +19,24 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        <link href="./css/estilos.css" rel="stylesheet"/>
+        <link href="../../css/estilos.css" rel="stylesheet"/>
 
+        <?php require_once('../crud/conexion.php'); require_once('../crud/TrabajadoresCRUD.php'); require_once('../crud/TiendaCRUD.php') ?>
     </head>
 
     <body>
         <header>
+            
             <div class="container">
                 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                    <img src="./images/Game.png" class="img w-25">
+                    <img src="../../images/Game.png" class="img w-25">
                 </a>
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="./index.html" class="nav-link px-2 link-secondary">Pagina Principal</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Inventario</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Gestionar Empleados</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Añadir Videojuegos</a></li>
+                    <li><a href="index.php" class="nav-link px-2 link-secondary">Pagina Principal</a></li>
+                    <li><a href="inventario.php" class="nav-link px-2 link-dark">Inventario</a></li>
+                    <li><a href="GestionEmpleados.php" class="nav-link px-2 link-dark">Gestionar Empleados</a></li>
+                    <li><a href="GestionarVideojuegos.php" class="nav-link px-2 link-dark">Gestionar Videojuegos</a></li>
                 </ul>
                 <div class="col-md-3 text-end">
                     <!--Editar Para que aparezca el Usuario Registrado-->
@@ -44,16 +46,32 @@
                 </header>
             </div>
         </header>
+        <div class="container text-center my-5">
+            <h2 class="fw-bold text-purple">Bienvenido a GAME Store</h2>
+            <p class="lead text-muted">
+                Gestiona tu tienda de forma rápida y sencilla: controla inventarios, empleados y videojuegos.
+            </p>
+            <p class="lead text-muted">
+
+                Actualmente somos <?php if(TrabajadoresCRUD::cuantostrabajadores() == 1){
+                    echo TrabajadoresCRUD::cuantostrabajadores() . " trabajador"; 
+                }else{
+                    echo TrabajadoresCRUD::cuantostrabajadores() . " trabajadores";
+                }
+                ?> 
+            </p>
+            <hr class="w-25 mx-auto">
+        </div>
         <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                <img src="./images/TiendaGame1.jpg" class="d-block w-100" alt="FotoTiendaGame1">
+                <img src="../../images/TiendaGame1.jpg" class="d-block w-100" alt="FotoTiendaGame1">
                 </div>
                 <div class="carousel-item">
-                <img src="./images/TiendaGame2.jpg" class="d-block w-100" alt="FotoTiendaGame2">
+                <img src="../../images/TiendaGame2.jpg" class="d-block w-100" alt="FotoTiendaGame2">
                 </div>
                 <div class="carousel-item">
-                <img src="./images/TiendaGame3.jpg" class="d-block w-100" alt="FotoTiendaGame3">
+                <img src="../../images/TiendaGame3.jpg" class="d-block w-100" alt="FotoTiendaGame3">
                 </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
@@ -75,7 +93,7 @@
                     <h2 class="m-0">Inventario</h2>
                 </div>
                 <p>Pagina para manejar el inventario de la tienda.</p>
-                <a href="#" class="icon-link link-purple">
+                <a href="inventario.php" class="icon-link link-purple">
                 Ir a Inventario
                 </a>
             </div>
@@ -87,7 +105,7 @@
                     <h2 class="m-0">Gestionar Empleados</h2>
                 </div>
                 <p>Pagina para gestionar los empleados de la tienda.</p>
-                <a href="#" class="icon-link link-purple">
+                <a href="GestionEmpleados.php" class="icon-link link-purple">
                 Ir a Gestionar Empleados 
                 </a>
             </div>
@@ -96,14 +114,45 @@
                     <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
                         <i class="bi bi-stack fs-4 text-white"></i>
                     </div>
-                    <h2 class="m-0">Añadir Videojuegos</h2>
+                    <h2 class="m-0">Gestionar Videojuegos</h2>
                 </div>
-                <p>Pagina para añadir Videojuegos a todas las tiendas de GAME.</p>
-                <a href="#" class="icon-link link-purple">
-                Ir a Añadir Videojuegos 
+                <p>Pagina para gestionar Videojuegos a todas las tiendas de GAME.</p>
+                <a href="GestionarVideojuegos.php" class="icon-link link-purple">
+                Ir a Gestionar Videojuegos 
                 </a>
             </div>
             </div>
+        </div>
+        <div class="container my-5">
+            <h1 class="text-center mb-4">Buscar Videojuegos</h1>
+
+            <?php if (!empty($mensaje)): ?>
+                <div class="alert alert-success"><?= htmlspecialchars($mensaje) ?></div>
+            <?php endif; ?>
+
+            <form method="post" class="mb-4">
+                <select name="tiendaId" class="form-select mb-2" required>
+                    <option value="">Seleccione una Tienda</option>
+                    <?php 
+                        $tiendas = TiendaCRUD::recibirRegistros();
+                    if ($tiendas && mysqli_num_rows($tiendas) > 0):
+                        while ($row = $tiendas->fetch_assoc()): ?>
+                            <option value="<?= $row['TiendaId'] ?>"><?= "Direccion: " . htmlspecialchars($row['Direccion']) . " Pais: " . htmlspecialchars($row['Pais']) ?></option>
+                        <?php endwhile;
+                    else: ?>
+                        <option value="">No hay videojuegos disponibles</option>
+                    <?php endif; ?>
+                </select>
+                <label for="plataforma">Plataforma</label>
+                <input type="text" name="plataforma" id="plataforma" placeholder="PS4" class="form-control mb-2" required>
+
+                <button type="submit" name="buscar" class="btn btn-purple w-100">Buscar Videojuegos por Plataforma</button>
+            </form>
+            <?php 
+                if (isset($_POST['buscar'])) {
+                    TiendaCRUD::queVideojuegos($_POST['plataforma'], $_POST['tiendaId']);
+                }
+                ?>
         </div>
         <footer class="bg-dark text-white pt-4 pb-3">
             <div class="container">
@@ -121,7 +170,7 @@
                 <div class="mb-3 mb-md-0">
                     <h5 class="fw-semibold mb-2">Enlaces</h5>
                     <ul class="list-unstyled mb-0">
-                    <li><a href="./index.html" class="text-white text-decoration-none">Inicio</a></li>
+                    <li><a href="./index.php" class="text-white text-decoration-none">Inicio</a></li>
                     <li><a href="./sobreNosotros" class="text-white text-decoration-none">Acerca de</a></li>
                     <li><a href="./contacto" class="text-white text-decoration-none">Contacto</a></li>
                     </ul>

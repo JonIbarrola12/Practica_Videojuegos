@@ -1,25 +1,12 @@
 <?php
     require_once 'conexion.php';
+    require_once 'CopiasVideojuegosCRUD.php';
+    require_once 'VideojuegosCRUD.php';
     class TiendaCRUD{
         public static function recibirRegistros(){
             global $conexion;
             $selectSql = "Select * from tiendas";
-            try{
-                $query = mysqli_query($conexion,$selectSql);
-                if (!$query) {
-                    throw new Exception("Error en la consulta: " . mysqli_error($conexion));
-                }
-
-                $resultados = [];
-                while ($fila = mysqli_fetch_assoc($query)) {
-                    $resultados[] = $fila;
-                }
-
-                return $resultados;
-            }catch(Exception $e){
-                echo "Error al obtener registros: " . $e->getMessage();
-                return [];
-            }
+            return mysqli_query($conexion,$selectSql);
         }
         public static function anadirTienda(Tienda $tienda){
             global $conexion;
@@ -112,5 +99,45 @@
                 echo "Error al modificar tienda: " . $e->getMessage();
             }
         }
-        
+
+        public static function queVideojuegos(string $plataforma, int $tiendaId) {
+            $copiasVideojuegos = CopiasVideojuegosCRUD::recibirRegistros();
+            $videojuegos = VideojuegosCRUD::recibirRegistros();
+            $idvideojuegos = [];
+            echo '<div class="container my-4">';
+            echo '<h2 class="mb-4">Videojuegos encontrados</h2>';
+            echo '<table class="table table-striped table-hover">';
+            echo '<thead class="table-dark">';
+            echo '<tr>';
+            echo '<th>Título</th>';
+            echo '<th>Año de Publicación</th>';
+            echo '<th>Estudio</th>';
+            echo '<th>Plataforma</th>';
+            echo '</tr>';
+            echo '</thead>';
+            echo '<tbody>';
+
+            while ($row = $copiasVideojuegos->fetch_assoc()) {
+                if (!in_array($row['VideojuegoId'], $idvideojuegos)) {
+                    $idvideojuegos[] = $row['VideojuegoId'];
+                }
+            }
+
+            while ($row = $videojuegos->fetch_assoc()) {
+                if (in_array($row['VideojuegoId'], $idvideojuegos) 
+                    && $row['Plataforma'] == $plataforma) {
+
+                    echo '<tr>';
+                    echo '<td>' . htmlspecialchars($row['Titulo']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['AnioPublicacion']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['EstudioDesarrollo']) . '</td>';
+                    echo '<td>' . htmlspecialchars($row['Plataforma']) . '</td>';
+                    echo '</tr>';
+                }
+            }
+            echo '</tbody>';
+            echo '</table>';
+            echo '</div>';
+        }
+
     }
