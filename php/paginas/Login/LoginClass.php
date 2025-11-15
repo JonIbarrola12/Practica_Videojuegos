@@ -25,7 +25,7 @@ class LoginClass {
             $fila = $resultado->fetch_assoc();
 
             // Comparación directa sin hash
-            if ($this->contrasena === $fila['Contrasena']) {
+            if (password_verify($this->contrasena, $fila['Contrasena'])) {
                 session_start();
                 $_SESSION['Usuario'] = $this->usuario;
                 $_SESSION['valid'] = true;
