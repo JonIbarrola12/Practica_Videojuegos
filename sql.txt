@@ -7,68 +7,63 @@ https://www.apachefriends.org/es/index.html
 
 3. Accede a http://localhost/phpmyadmin/ .
 
-4.1 En el apartado de SQL deberas ejecutar los siguientes codigos:
-    4.1.1 Para crear la base de datos ejecuta el siguiente codigo
+4. Hay dos formas de crear la base de datos:
 
- - Create database GAME;
+   4.1 En el apartado de SQL deberas ejecutar los siguientes codigos:
+      4.1.1 Para crear la base de datos ejecuta el siguiente codigo
 
-    4.1.2 Para crear la las distintas tablas de nuestra base de datos ejecutaremos los siguientes codigos:
- 
- - Create table Tiendas (
-    TiendaId int auto_increment Primary Key,
-    Direccion varchar(100) Not Null,
-    Pais ENUM('España','Portugal') Not Null Default 'España'
-    );
-    
- - Create table Trabajadores (
-    TrabajadorId int auto_increment Primary Key,
-    Nombre varchar(50),
-    Apellidos varchar(100),
-    Dni varchar(9) Unique Not Null,
-    FechaNacimiento date,
-    Email varchar(75),
-    Usuario varchar(40) Unique Not Null,
-    Contrasena varchar(225) Not Null,
-    TiendaId int Not Null,
-    Foreign Key (TiendaId) References Tiendas(TiendaId)
- );
+   - Create database GAME;
 
- - Create table Almacenes (
-    AlmacenId int auto_increment Primary Key,
-    TiendaId int Not Null,
-    Foreign Key (TiendaId) References Tiendas(TiendaId)
- );
+      4.1.2 Para crear la las distintas tablas de nuestra base de datos ejecutaremos los siguientes codigos:
+   
+   - Create table Tiendas (
+      TiendaId int auto_increment Primary Key,
+      Direccion varchar(100) Not Null,
+      Pais ENUM('España','Portugal') Not Null Default 'España'
+      );
+      
+   - Create table Trabajadores (
+      TrabajadorId int auto_increment Primary Key,
+      Nombre varchar(50),
+      Apellidos varchar(100),
+      Dni varchar(9) Unique Not Null,
+      FechaNacimiento date,
+      Email varchar(75),
+      Usuario varchar(40) Unique Not Null,
+      Contrasena varchar(225) Not Null,
+      TiendaId int Not Null,
+      Foreign Key (TiendaId) References Tiendas(TiendaId)
+   );
 
- - Create table Videojuegos (
-    VideojuegoId int auto_increment Primary Key,
-    Titulo varchar(75) Not Null,
-    AnioPublicacion int,
-    EstudioDesarrollo varchar(50),
-    Plataforma varchar(40)
- );
+   - Create table Videojuegos (
+      VideojuegoId int auto_increment Primary Key,
+      Titulo varchar(75) Not Null,
+      AnioPublicacion int,
+      EstudioDesarrollo varchar(50),
+      Plataforma varchar(40)
+   );
 
- - Create table CopiasVideojuegos (
-    CopiaVideojuegoId  int auto_increment Primary Key,
-    PrecioNuevo DECIMAL(8,2),
-    PrecioSeminuevo DECIMAL(8,2),
-    PrecioCompraGame DECIMAL(8,2),
-    Unidades int Default 0,
-    VideojuegoId int Not Null,
-    Foreign Key (VideojuegoId) References Videojuegos(VideojuegoId),
-    AlmacenId int Not Null,
-    Foreign Key (AlmacenId) References Almacenes(AlmacenId)
- );
+   - Create table CopiasVideojuegos (
+      CopiaVideojuegoId  int auto_increment Primary Key,
+      PrecioNuevo DECIMAL(8,2),
+      PrecioSeminuevo DECIMAL(8,2),
+      PrecioCompraGame DECIMAL(8,2),
+      Unidades int Default 0,
+      VideojuegoId int Not Null,
+      Foreign Key (VideojuegoId) References Videojuegos(VideojuegoId),
+      TiendaId int Not Null,
+      Foreign Key (TiendaId) References Tiendas(TiendaId)
+   );
 
- - Create table Modificaciones (
-    ModificacionId int auto_increment Primary Key,
-    TipoMovimiento varchar(50) Not Null,
-    Fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    TrabajadorId int Not Null,
-    CopiaVideojuegoId int Not Null,
-    Foreign Key (TrabajadorId) References Trabajadores(TrabajadorId),
-    Foreign Key (CopiaVideojuegoId) References CopiasVideojuegos(CopiaVideojuegoId)
- );
-4.2 En el apartado de importar de myphpAdmin importa el archivo que se encuentra en la carpeta Database
+   - Create table Modificaciones (
+      ModificacionId int auto_increment Primary Key,
+      TipoMovimiento varchar(50) Not Null,
+      Fecha TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+      TrabajadorId int Not Null,
+      CopiaVideojuegoId int Not Null,
+   );
+
+   4.2 En el apartado de importar de myphpAdmin importa el archivo que se encuentra en la carpeta Database
 
 5. Tambien tendras que crear el usuario root para poder acceder a la base de datos. Para ello, ejecutaras los siguiente comandos en el apartado de SQL:
    5.1 Si no tenes el usuario root :
