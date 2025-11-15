@@ -74,8 +74,16 @@ $tiendas = TiendaCRUD::recibirRegistros();
                 </ul>
                 <div class="col-md-3 text-end">
                     <!--Editar Para que aparezca el Usuario Registrado-->
-                    <button type="button" class="btn btn-outline-purple me-2">Iniciar Sesion</button>
-                    <button type="button" class="btn btn-purple">Registrarse</button>
+                <?php
+                    if (isset($_SESSION['Usuario'])) {
+                        echo '
+                        <span class="text-purple fw-bold"> ' . htmlspecialchars($_SESSION['Usuario']) . '</span>
+                        <a href="./Login/Logout.php" class="btn btn-outline-danger ms-2">Cerrar Sesión</a>';
+                    } else {
+                        echo '
+                        <a href="./Login/Index.php" class="btn btn-outline-purple me-2">Iniciar Sesión</a>';
+                    }
+                ?>
                 </div>
                 </header>
             </div>
