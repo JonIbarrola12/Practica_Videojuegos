@@ -2,6 +2,7 @@
 <?php session_start() ?>
 <html lang="en">
     <head>
+        <link rel="icon" type="image/png" href="../../images/favicon.png">
         <title>GAME</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />

@@ -16,31 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `almacenes`
---
-
-DROP TABLE IF EXISTS `almacenes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `almacenes` (
-  `AlmacenId` int(11) NOT NULL AUTO_INCREMENT,
-  `TiendaId` int(11) NOT NULL,
-  PRIMARY KEY (`AlmacenId`),
-  KEY `TiendaId` (`TiendaId`),
-  CONSTRAINT `almacenes_ibfk_1` FOREIGN KEY (`TiendaId`) REFERENCES `tiendas` (`TiendaId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `almacenes`
---
-
-LOCK TABLES `almacenes` WRITE;
-/*!40000 ALTER TABLE `almacenes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `almacenes` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `copiasvideojuegos`
 --
 
@@ -54,13 +29,13 @@ CREATE TABLE `copiasvideojuegos` (
   `PrecioCompraGame` decimal(8,2) DEFAULT NULL,
   `Unidades` int(11) DEFAULT '0',
   `VideojuegoId` int(11) NOT NULL,
-  `AlmacenId` int(11) NOT NULL,
+  `TiendaId` int(11) NOT NULL,
   PRIMARY KEY (`CopiaVideojuegoId`),
   KEY `VideojuegoId` (`VideojuegoId`),
-  KEY `AlmacenId` (`AlmacenId`),
-  CONSTRAINT `copiasvideojuegos_ibfk_1` FOREIGN KEY (`VideojuegoId`) REFERENCES `videojuegos` (`VideojuegoId`),
-  CONSTRAINT `copiasvideojuegos_ibfk_2` FOREIGN KEY (`AlmacenId`) REFERENCES `almacenes` (`AlmacenId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+  KEY `TiendaId` (`TiendaId`),
+  CONSTRAINT `copiasvideojuegos_ibfk_1` FOREIGN KEY (`VideojuegoId`) REFERENCES `videojuegos` (`VideojuegoId`) ON DELETE CASCADE,
+  CONSTRAINT `fk_copias_tienda` FOREIGN KEY (`TiendaId`) REFERENCES `tiendas` (`TiendaId`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,6 +44,7 @@ CREATE TABLE `copiasvideojuegos` (
 
 LOCK TABLES `copiasvideojuegos` WRITE;
 /*!40000 ALTER TABLE `copiasvideojuegos` DISABLE KEYS */;
+INSERT INTO `copiasvideojuegos` VALUES (6,234.00,23.00,23.00,23,17,1);
 /*!40000 ALTER TABLE `copiasvideojuegos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -86,8 +62,12 @@ CREATE TABLE `modificaciones` (
   `TrabajadorId` int(11) NOT NULL,
   `CopiaVideojuegoId` int(11) DEFAULT NULL,
   `VideojuegoId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ModificacionId`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
+  PRIMARY KEY (`ModificacionId`),
+  KEY `modificaciones_ibfk_1` (`TrabajadorId`),
+  KEY `modificaciones_ibfk_2` (`CopiaVideojuegoId`),
+  KEY `videojuego` (`VideojuegoId`),
+  CONSTRAINT `modificaciones_ibfk_1` FOREIGN KEY (`TrabajadorId`) REFERENCES `trabajadores` (`TrabajadorId`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -96,7 +76,7 @@ CREATE TABLE `modificaciones` (
 
 LOCK TABLES `modificaciones` WRITE;
 /*!40000 ALTER TABLE `modificaciones` DISABLE KEYS */;
-INSERT INTO `modificaciones` VALUES (1,'Insertar','2025-11-12 22:57:45',2,NULL,5),(2,'Eliminar','2025-11-12 22:58:09',2,NULL,5);
+INSERT INTO `modificaciones` VALUES (1,'Eliminar Videojuego','2025-11-15 18:05:06',2,NULL,7),(2,'Eliminar Videojuego','2025-11-15 18:05:08',2,NULL,10),(3,'Insertar Videojuego','2025-11-15 18:05:38',2,NULL,12),(4,'Insertar Copia de Videojuego','2025-11-15 18:05:57',2,3,NULL),(5,'Insertar Videojuego','2025-11-15 18:14:18',2,NULL,13),(6,'Eliminar Videojuego','2025-11-15 18:14:22',2,NULL,13),(7,'Eliminar Videojuego','2025-11-15 18:17:18',2,NULL,12),(8,'Insertar Videojuego','2025-11-15 18:22:06',2,NULL,14),(9,'Insertar Copia de Videojuego','2025-11-15 18:22:16',2,4,NULL),(10,'Eliminar Copia de Videojuego','2025-11-15 18:24:19',2,4,NULL),(11,'Insertar Videojuego','2025-11-15 18:24:59',2,NULL,15),(12,'Eliminar Videojuego','2025-11-15 18:25:10',2,NULL,14),(13,'Eliminar Videojuego','2025-11-15 18:25:11',2,NULL,15),(14,'Insertar Videojuego','2025-11-15 18:25:47',2,NULL,16),(15,'Insertar Copia de Videojuego','2025-11-15 18:25:56',2,5,NULL),(16,'Eliminar Videojuego','2025-11-15 18:26:04',2,NULL,16),(17,'Insertar Videojuego','2025-11-15 18:47:06',2,NULL,17),(18,'Insertar Copia de Videojuego','2025-11-15 18:47:57',2,6,NULL);
 /*!40000 ALTER TABLE `modificaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -147,7 +127,7 @@ CREATE TABLE `trabajadores` (
   UNIQUE KEY `Usuario` (`Usuario`),
   KEY `TiendaId` (`TiendaId`),
   CONSTRAINT `trabajadores_ibfk_1` FOREIGN KEY (`TiendaId`) REFERENCES `tiendas` (`TiendaId`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -156,7 +136,7 @@ CREATE TABLE `trabajadores` (
 
 LOCK TABLES `trabajadores` WRITE;
 /*!40000 ALTER TABLE `trabajadores` DISABLE KEYS */;
-INSERT INTO `trabajadores` VALUES (2,'Admin','User','12345678A',NULL,NULL,'admin','admin',1),(3,'Christian','Bermudo MuÃ±oz','22755528H','2025-11-12','christian_220@msn.com','christian@gmail.com','$2y$10$diBOw0iB2CvawG8ptsV7x.903HTBwMynKiMMsWVrgZa5dh8mEDMAS',1);
+INSERT INTO `trabajadores` VALUES (2,'Admin','User','12345678A',NULL,NULL,'admin','admin',1),(8,'Cremu','SAD ASD','ASS','1990-05-04','cristian.bermudo90@somo.eus','adminprueba','$2y$10$EXqMrqCgohuDhZPpt48E/OeQbcs5cpx2POD6eILSXRFgJLUUi15km',1),(10,'Christian','Bermudo MuÃ±oz','22755527H','2001-12-05','christian_220@msn.com','adminprueba2','$2y$10$SlBWbytnhXneNdy202pbmemV209MsqINdSR80RVPdLwjFT.ZTfNcC',1);
 /*!40000 ALTER TABLE `trabajadores` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -174,7 +154,7 @@ CREATE TABLE `videojuegos` (
   `EstudioDesarrollo` varchar(50) DEFAULT NULL,
   `Plataforma` varchar(40) DEFAULT NULL,
   PRIMARY KEY (`VideojuegoId`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -183,6 +163,7 @@ CREATE TABLE `videojuegos` (
 
 LOCK TABLES `videojuegos` WRITE;
 /*!40000 ALTER TABLE `videojuegos` DISABLE KEYS */;
+INSERT INTO `videojuegos` VALUES (17,'Titanic',1300,'ea','pc');
 /*!40000 ALTER TABLE `videojuegos` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -195,4 +176,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-11-13  0:04:58
+-- Dump completed on 2025-11-15 20:17:12

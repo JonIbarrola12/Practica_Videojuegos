@@ -37,6 +37,7 @@ $tiendas = TiendaCRUD::recibirRegistros();
 <!doctype html>
 <html lang="en">
     <head>
+        <link rel="icon" type="image/png" href="../../images/favicon.png">
         <title>Inventario</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
