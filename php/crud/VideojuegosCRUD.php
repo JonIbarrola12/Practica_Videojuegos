@@ -115,28 +115,5 @@ class VideojuegosCRUD{
                 echo "Error al modificar videojuego: " . $e->getMessage();
             }
         }
-    public static function recibirNombrePorId($videojuegoId){
-        global $conexion;
-        $selectSql = "Select nombre from videojuegos where VideojuegoId = ?";
-        try{
-            $stmt = mysqli_prepare($conexion, $selectSql);
-            if (!$stmt) {
-                throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
-            }
-            mysqli_stmt_bind_param(
-                $stmt,
-                "i", 
-                $videojuegoId
-            );
-            $resultado = mysqli_stmt_execute($stmt);
-
-            if (!$resultado) {
-                throw new Exception("Error al ejecutar el SELECT: " . mysqli_stmt_error($stmt));
-            }
-            mysqli_stmt_close($stmt);
-        } catch (Exception $e) {
-                echo "Error al seleccionar registros del videojuego: " . $e->getMessage();
-        }
-    }
 }
 ?>
