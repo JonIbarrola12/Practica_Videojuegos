@@ -1,14 +1,14 @@
 <?php
     class Videojuego{
         //Atributos
-        private int $VideojuegoId;
+        private ?int $VideojuegoId;
         private string $Titulo;
         private int $AnioPublicacion;
         private string $EstudioDesarrollo;
         private string $Plataforma;
 
         //Constructor
-        public function __construct(int $pVideojuegoId = null, string $pTitulo = "", int $pAnioPublicacion = 0, string $pEstudioDesarrollo = "", string $pPlataforma = "" ) {
+        public function __construct(?int $pVideojuegoId = null, string $pTitulo = "", int $pAnioPublicacion = 0, string $pEstudioDesarrollo = "", string $pPlataforma = "" ) {
             $this->VideojuegoId = $pVideojuegoId;
             $this->Titulo = $pTitulo;
             $this->AnioPublicacion = $pAnioPublicacion;

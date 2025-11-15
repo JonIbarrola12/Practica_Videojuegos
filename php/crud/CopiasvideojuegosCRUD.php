@@ -1,43 +1,126 @@
 <?php
 require_once("conexion.php");
-require_once("funcionesVideojuego.php");
+require_once("ModificacionesCRUD.php");
+require_once("../clases/Modificacion.php");
+class CopiasVideojuegosCRUD{
+    public static function recibirRegistros(){
+            global $conexion;
+            $selectSql = "Select * from copiasvideojuegos";
+            return mysqli_query($conexion,$selectSql);
+        }
+        public static function anadirCopiaVideojuego(CopiaVideojuego $copiaVideojuego){
+            global $conexion;
+            $insertSql = "Insert into copiasvideojuegos (PrecioNuevo,PrecioSeminuevo,PrecioCompraGame,Unidades,VideojuegoId,TiendaId) values (?,?,?,?,?,?)";
+            try {
+                $stmt = mysqli_prepare($conexion, $insertSql);
+                if (!$stmt) {
+                    throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
+                }
 
-// Inserta una copia de videojuego
-function insertarCopiaVideojuego($conexion, $videojuegoId, $tiendaId, $precioNuevo, $precioSeminuevo, $precioCompra, $unidades) {
-    // Obtener el AlmacenId de la tienda
-    $res = mysqli_query($conexion, "SELECT AlmacenId FROM almacenes WHERE TiendaId = $tiendaId LIMIT 1");
-    if ($res && mysqli_num_rows($res) > 0) {
-        $row = mysqli_fetch_assoc($res);
-        $almacenId = $row['AlmacenId'];
-    } else {
-        return "Error: No existe un almacén para esta tienda.";
+                $precioNuevo = $copiaVideojuego->getPrecioNuevo();
+                $precioSeminuevo = $copiaVideojuego->getPrecioSeminuevo();
+                $precioCompraGame = $copiaVideojuego->getPrecioCompraGame();
+                $unidades = $copiaVideojuego->getUnidades();
+                $tiendaId = $copiaVideojuego->getTiendaId();
+                $videojuegoId = $copiaVideojuego->getVideojuegoId();
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "dddiii",
+                    $precioNuevo,
+                    $precioSeminuevo,
+                    $precioCompraGame,
+                    $unidades,
+                    $videojuegoId,
+                    $tiendaId
+                );
+
+                $resultado = mysqli_stmt_execute($stmt);
+
+                if (!$resultado) {
+                    throw new Exception("Error al ejecutar el INSERT: " . mysqli_stmt_error($stmt));
+                }
+
+                mysqli_stmt_close($stmt);
+                $copiaVideojuegoId = mysqli_insert_id($conexion);
+                $copiaVideojuego->setCopiaVideojuegoId($copiaVideojuegoId);
+                $modificacion = new Modificacion(null,'Insertar Copia de Videojuego',$_SESSION['TrabajadorId'],$copiaVideojuegoId,null);
+
+                ModificacionesCRUD::anadirModificacion($modificacion);
+            } catch (Exception $e) {
+                echo "Error al añadir copia de videojuego: " . $e->getMessage();
+            }
+        }
+        public static function eliminarCopiaVideojuego(int $copiaVideojuegoId){
+            global $conexion;
+            $deleteSql = "Delete from copiavideojuegos where CopiaVideojuegoId = ? ";
+
+            try {
+                $stmt = mysqli_prepare($conexion, $deleteSql);
+                if (!$stmt) {
+                    throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
+                }
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "i",
+                    $copiaVideojuegoId
+                );
+                $resultado = mysqli_stmt_execute($stmt);
+
+                if (!$resultado) {
+                    throw new Exception("Error al ejecutar el DELETE: " . mysqli_stmt_error($stmt));
+                }
+                mysqli_stmt_close($stmt);
+                $modificacion = new Modificacion(null,'Eliminar Copia de Videojuego',$_SESSION['TrabajadorId'],$copiaVideojuegoId,null);
+                ModificacionesCRUD::anadirModificacion($modificacion);
+
+            } catch (Exception $e) {
+                echo "Error al eliminar videojuego: " . $e->getMessage();
+            }
+        }
+        public static function modificarVideojuego(CopiaVideojuego $copiaVideojuego, int $videojuegoId){
+            global $conexion;
+
+            $modificarSql = "UPDATE copiasvideojuegos SET PrecioNuevo = ?, PrecioSeminuevo = ?, PrecioCompraGame = ?, Unidades = ?, TiendaId = ? WHERE CopiaVideojuegoId = ?";
+
+            try {
+                $stmt = mysqli_prepare($conexion, $modificarSql);
+                if (!$stmt) {
+                    throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
+                }
+
+                $precioNuevo = $copiaVideojuego->getPrecioNuevo();
+                $precioSeminuevo = $copiaVideojuego->getPrecioSeminuevo();
+                $precioCompraGame = $copiaVideojuego->getPrecioCompraGame();
+                $unidades = $copiaVideojuego->getUnidades();
+                $tiendaId = $copiaVideojuego->getTiendaId();
+
+                mysqli_stmt_bind_param(
+                    $stmt,
+                    "dddiii", 
+                    $precioNuevo,
+                    $precioSeminuevo,
+                    $precioCompraGame,
+                    $unidades,
+                    $tiendaId,
+                    $copiaVideojuegoId
+                );
+
+                $resultado = mysqli_stmt_execute($stmt);
+
+                if (!$resultado) {
+                    throw new Exception("Error al ejecutar el UPDATE: " . mysqli_stmt_error($stmt));
+                }
+
+                mysqli_stmt_close($stmt);
+                $modificacion = new Modificacion(null,'Modificar Copia de Videojuego',$_SESSION['TrabajadorId'],$copiaVideojuegoId,null);
+                ModificacionesCRUD::anadirModificacion($modificacion);
+
+            } catch (Exception $e) {
+                echo "Error al modificar copia de videojuego: " . $e->getMessage();
+            }
+        }
     }
 
-    $query = "INSERT INTO copiasvideojuegos 
-              (PrecioNuevo, PrecioSeminuevo, PrecioCompraGame, Unidades, VideojuegoId, AlmacenId) 
-              VALUES ($precioNuevo, $precioSeminuevo, $precioCompra, $unidades, $videojuegoId, $almacenId)";
-    if (mysqli_query($conexion, $query)) {
-        return "Copia de videojuego insertada correctamente.";
-    } else {
-        return "Error al insertar copia: " . mysqli_error($conexion);
-    }
-}
-
-function eliminarCopiaVideojuego($conexion, $copiaId) {
-    mysqli_query($conexion, "DELETE FROM copiasvideojuegos WHERE CopiaVideojuegoId = $copiaId");
-}
-
-function registrarModificacionCopia($conexion, $tipo, $trabajadorId, $videojuegoId, $copiaId = null) {
-    mysqli_query($conexion, "INSERT INTO modificaciones (TipoMovimiento, Fecha, TrabajadorId, VideojuegoId, CopiaVideojuegoId)
-                             VALUES ('$tipo', NOW(), $trabajadorId, $videojuegoId, ".($copiaId ?? "NULL").")");
-}
-
-function obtenerCopias($conexion) {
-    return mysqli_query($conexion, "SELECT c.CopiaVideojuegoId, v.Titulo, t.Direccion, c.Unidades, 
-                                           c.PrecioNuevo, c.PrecioSeminuevo, c.PrecioCompraGame, v.VideojuegoId
-                                    FROM copiasvideojuegos c
-                                    JOIN almacenes a ON c.AlmacenId = a.AlmacenId
-                                    JOIN tiendas t ON a.TiendaId = t.TiendaId
-                                    JOIN videojuegos v ON c.VideojuegoId = v.VideojuegoId");
-}
 ?>

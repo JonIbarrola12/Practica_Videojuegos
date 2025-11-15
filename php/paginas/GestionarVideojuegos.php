@@ -1,14 +1,47 @@
+<?php
+require_once("../crud/conexion.php");
+require_once("../crud/VideojuegosCRUD.php");
+require_once("../clases/Videojuego.php");
+
+session_start();
+
+// Usuario simulado
+$_SESSION['TrabajadorId'] = 2;
+
+$mensaje = "";
+
+// Insertar videojuego
+if (isset($_POST['insertar'])) {
+    $videojuego = new Videojuego(null, $_POST['titulo'], $_POST['anio'], $_POST['estudio'], $_POST['plataforma']);
+    VideojuegosCRUD::anadirVideojuego(
+        $videojuego
+    );
+    $mensaje = "Videojuego " . $videojuego->getTitulo() . " creado correctamente";
+}
+
+// Eliminar videojuego
+if (isset($_POST['eliminar'])) {
+    VideojuegosCRUD::eliminarVideojuego(
+        $_POST['videojuegoId'],
+    );
+    $mensaje = "Videojuego eliminado correctamente";
+}
+
+// Obtener videojuegos actualizados
+$videojuegos = VideojuegosCRUD::recibirRegistros();
+?>
+
 <!doctype html>
 <html lang="en">
     <head>
-        <title>GAME</title>
+        <title>Gestionar Videojuegos</title>
         <!-- Required meta tags -->
         <meta charset="utf-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
         />
-        
+
         <!-- Bootstrap CSS v5.2.1 -->
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -19,8 +52,7 @@
         <!-- Bootstrap Icons -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
-        <link href="./css/estilos.css" rel="stylesheet"/>
-
+        <link href="../../css/estilos.css" rel="stylesheet"/>
     </head>
 
     <body>
@@ -28,13 +60,13 @@
             <div class="container">
                 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
                 <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
-                    <img src="./images/Game.png" class="img w-25">
+                    <img src="../../images/Game.png" class="img w-25">
                 </a>
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="./index.html" class="nav-link px-2 link-secondary">Pagina Principal</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Inventario</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Gestionar Empleados</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Añadir Videojuegos</a></li>
+                    <li><a href="index.php" class="nav-link px-2 link-dark">Pagina Principal</a></li>
+                    <li><a href="inventario.php" class="nav-link px-2 link-dark">Inventario</a></li>
+                    <li><a href="GestionEmpleados.php" class="nav-link px-2 link-dark">Gestionar Empleados</a></li>
+                    <li><a href="GestionarVideojuegos.php" class="nav-link px-2 link-secondary">Gestionar Videojuegos</a></li>
                 </ul>
                 <div class="col-md-3 text-end">
                     <!--Editar Para que aparezca el Usuario Registrado-->
@@ -44,66 +76,37 @@
                 </header>
             </div>
         </header>
-        <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                <img src="./images/TiendaGame1.jpg" class="d-block w-100" alt="FotoTiendaGame1">
-                </div>
-                <div class="carousel-item">
-                <img src="./images/TiendaGame2.jpg" class="d-block w-100" alt="FotoTiendaGame2">
-                </div>
-                <div class="carousel-item">
-                <img src="./images/TiendaGame3.jpg" class="d-block w-100" alt="FotoTiendaGame3">
-                </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-        <div class="container px-4" id="featured-3">
-            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-            <div class="feature col">
-                <div class="d-flex align-items-center">
-                    <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
-                        <i class="bi bi-stack fs-4 text-white"></i>
-                    </div>
-                    <h2 class="m-0">Inventario</h2>
-                </div>
-                <p>Pagina para manejar el inventario de la tienda.</p>
-                <a href="php/paginas/inventario.php" class="icon-link link-purple">
-                Ir a Inventario
-                </a>
-            </div>
-            <div class="feature col">
-                <div class="d-flex align-items-center">
-                    <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
-                        <i class="bi bi-stack fs-4 text-white"></i>
-                    </div>
-                    <h2 class="m-0">Gestionar Empleados</h2>
-                </div>
-                <p>Pagina para gestionar los empleados de la tienda.</p>
-                <a href="#" class="icon-link link-purple">
-                Ir a Gestionar Empleados 
-                </a>
-            </div>
-            <div class="feature col">
-                <div class="d-flex align-items-center">
-                    <div class="feature-icon d-inline-flex bg-purple bg-gradient rounded p-2 me-3">
-                        <i class="bi bi-stack fs-4 text-white"></i>
-                    </div>
-                    <h2 class="m-0">Añadir Videojuegos</h2>
-                </div>
-                <p>Pagina para añadir Videojuegos a todas las tiendas de GAME.</p>
-                <a href="#" class="icon-link link-purple">
-                Ir a Añadir Videojuegos 
-                </a>
-            </div>
-            </div>
+        <div class="container my-5">
+            <h1 class="text-center mb-4">Gestión de Videojuegos</h1>
+
+            <?php if (!empty($mensaje)): ?>
+                <div class="alert alert-success"><?= htmlspecialchars($mensaje) ?></div>
+            <?php endif; ?>
+
+            <h2>Insertar videojuego</h2>
+            <form method="post" class="mb-4">
+                <input type="text" name="titulo" placeholder="Título" class="form-control mb-2" required>
+                <input type="number" name="anio" placeholder="Año de publicación" class="form-control mb-2">
+                <input type="text" name="estudio" placeholder="Estudio de desarrollo" class="form-control mb-2">
+                <input type="text" name="plataforma" placeholder="Plataforma" class="form-control mb-2">
+                <button type="submit" name="insertar" class="btn btn-success w-100">Insertar</button>
+            </form>
+
+            <h2>Eliminar videojuego</h2>
+            <form method="post" class="mb-4">
+                <select name="videojuegoId" class="form-select mb-2" required>
+                    <option value="">Seleccione un videojuego</option>
+                    <?php 
+                    if ($videojuegos && mysqli_num_rows($videojuegos) > 0):
+                        while ($row = $videojuegos->fetch_assoc()): ?>
+                            <option value="<?= $row['VideojuegoId'] ?>"><?= "Videojuego: " . htmlspecialchars($row['Titulo']) . " Plataforma: " . htmlspecialchars($row['Plataforma']) ?></option>
+                        <?php endwhile;
+                    else: ?>
+                        <option value="">No hay videojuegos disponibles</option>
+                    <?php endif; ?>
+                </select>
+                <button type="submit" name="eliminar" class="btn btn-danger w-100">Eliminar</button>
+            </form>
         </div>
         <footer class="bg-dark text-white pt-4 pb-3">
             <div class="container">
@@ -141,7 +144,6 @@
 
             </div>
         </footer>
-
         <!-- Bootstrap JavaScript Libraries -->
         <script
             src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"

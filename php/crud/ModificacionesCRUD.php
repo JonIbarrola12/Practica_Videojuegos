@@ -1,9 +1,9 @@
 <?php
     require_once 'conexion.php';
-    class TrabajadoresCRUD{
+    class ModificacionesCRUD{
         public static function recibirRegistros(){
             global $conexion;
-            $selectSql = "Select * from trabajadores";
+            $selectSql = "Select * from modificaciones";
             try{
                 $query = mysqli_query($conexion,$selectSql);
                 if (!$query) {
@@ -21,37 +21,29 @@
                 return [];
             }
         }
-        public static function anadirTrabajador(Trabajador $trabajador){
+        public static function anadirModificacion(Modificacion $modificacion){
             global $conexion;
-            $insertSql = "Insert into trabajadores (Nombre,Apellidos,Dni,FechaNacimiento,Email,Usuario,Contrasena,TiendaId) values (?,?,?,?,?,?,?,?)";
+            $insertSql = "Insert into modificaciones (TipoMovimiento,Fecha,TrabajadorId,CopiaVideoJuegoId,VideojuegoId) values (?,?,?,?,?)";
             try {
                 $stmt = mysqli_prepare($conexion, $insertSql);
                 if (!$stmt) {
                     throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
                 }
 
-                $nombre = $trabajador->getNombre();
-                $apellidos = $trabajador->getApellidos();
-                $dni = $trabajador->getDni();
-                $fechaNacimiento = $trabajador->getFechaNacimiento()->format('Y-m-d');
-                $email = $trabajador->getEmail();
-                $usuario = $trabajador->getUsuario();
-                $contrasena = $trabajador->getContrasena();
-                $tiendaId = $trabajador->getTiendaId();
-
-                $contrasena = password_hash($contrasena, PASSWORD_DEFAULT);
+                $TipoMovimiento = $modificacion->getTipoMovimiento();
+                $Fecha = $modificacion->getFecha()->format('Y-m-d H:i:s');
+                $TrabajadorId = $modificacion->getTrabajadorId();
+                $CopiaVideoJuegoId = $modificacion->getCopiaVideojuegoId();
+                $VideojuegoId = $modificacion->getVideojuegoId();
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "sssssssi",
-                    $nombre,
-                    $apellidos,
-                    $dni,
-                    $fechaNacimiento,
-                    $email,
-                    $usuario,
-                    $contrasena,
-                    $tiendaId
+                    "ssiii",
+                    $TipoMovimiento,
+                    $Fecha,
+                    $TrabajadorId,
+                    $CopiaVideoJuegoId,
+                    $VideojuegoId
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -63,12 +55,12 @@
                 mysqli_stmt_close($stmt);
 
             } catch (Exception $e) {
-                echo "Error al añadir trabajador: " . $e->getMessage();
+                echo "Error al añadir modificacion: " . $e->getMessage();
             }
         }
-        public static function eliminarTrabajador(string $usuario){
+        public static function eliminarModificacion(int $ModificacionId){
             global $conexion;
-            $deleteSql = "Delete from trabajadores where Usuario = ? ";
+            $deleteSql = "Delete from modificaciones where ModificacionId = ? ";
 
             try {
                 $stmt = mysqli_prepare($conexion, $deleteSql);
@@ -78,8 +70,8 @@
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "s",
-                    $usuario
+                    "i",
+                    $ModificacionId
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -90,13 +82,12 @@
                 mysqli_stmt_close($stmt);
 
             } catch (Exception $e) {
-                echo "Error al eliminar trabajador: " . $e->getMessage();
+                echo "Error al eliminar modificacion: " . $e->getMessage();
             }
         }
-        public static function modificarTrabajador(Trabajador $trabajador, string $usuario){
+        public static function modificarModificacion(Modificacion $modificacion, int $ModificacionId){
             global $conexion;
-
-            $modificarSql = "UPDATE trabajadores SET Nombre = ?, Apellidos = ?, Dni = ?, FechaNacimiento = ?, Email = ?, TiendaId = ? WHERE Usuario = ?";
+            $modificarSql = "Update modificaciones set TipoMovimiento = ?, Fecha = ?, TrabajadorId = ?, CopiaVideoJuegoId = ? where ModificacionId = ?";
 
             try {
                 $stmt = mysqli_prepare($conexion, $modificarSql);
@@ -104,23 +95,20 @@
                     throw new Exception("Error al preparar la consulta: " . mysqli_error($conexion));
                 }
 
-                $nombre = $trabajador->getNombre();
-                $apellidos = $trabajador->getApellidos();
-                $dni = $trabajador->getDni();
-                $fechaNacimiento = $trabajador->getFechaNacimiento()->format('Y-m-d');
-                $email = $trabajador->getEmail();
-                $tiendaId = $trabajador->getTiendaId();
+                $TipoMovimiento = $modificacion->getTipoMovimiento();
+                $Fecha = $modificacion->getFecha()->format('Y-m-d H:i:s');
+                $TrabajadorId = $modificacion->getTrabajadorId();
+                $CopiaVideoJuegoId = $modificacion->getCopiaVideojuegoId();
+                $ModificacionId = $modificacion->getModificacionId();
 
                 mysqli_stmt_bind_param(
                     $stmt,
-                    "sssssis", 
-                    $nombre,
-                    $apellidos,
-                    $dni,
-                    $fechaNacimiento,
-                    $email,
-                    $tiendaId,
-                    $usuario
+                    "ssiii",
+                    $TipoMovimiento,
+                    $Fecha,
+                    $TrabajadorId,
+                    $CopiaVideoJuegoId,
+                    $ModificacionId
                 );
 
                 $resultado = mysqli_stmt_execute($stmt);
@@ -132,12 +120,8 @@
                 mysqli_stmt_close($stmt);
 
             } catch (Exception $e) {
-                echo "Error al modificar trabajador: " . $e->getMessage();
+                echo "Error al modificar Modificacion: " . $e->getMessage();
             }
-        }
-        public static function cuantostrabajadores(){
-            $trabajadores = self::recibirRegistros();
-            return count($trabajadores);
         }
         
     }
