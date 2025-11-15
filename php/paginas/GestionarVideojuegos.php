@@ -63,10 +63,10 @@ $videojuegos = VideojuegosCRUD::recibirRegistros();
                     <img src="../../images/Game.png" class="img w-25">
                 </a>
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-                    <li><a href="../../index.html" class="nav-link px-2 link-dark">Pagina Principal</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Inventario</a></li>
-                    <li><a href="#" class="nav-link px-2 link-dark">Gestionar Empleados</a></li>
-                    <li><a href="#" class="nav-link px-2 link-secondary">Añadir Videojuegos</a></li>
+                    <li><a href="index.php" class="nav-link px-2 link-dark">Pagina Principal</a></li>
+                    <li><a href="inventario.php" class="nav-link px-2 link-dark">Inventario</a></li>
+                    <li><a href="GestionEmpleados.php" class="nav-link px-2 link-dark">Gestionar Empleados</a></li>
+                    <li><a href="GestionarVideojuegos.php" class="nav-link px-2 link-secondary">Gestionar Videojuegos</a></li>
                 </ul>
                 <div class="col-md-3 text-end">
                     <!--Editar Para que aparezca el Usuario Registrado-->
