@@ -86,11 +86,7 @@ CREATE TABLE `modificaciones` (
   `TrabajadorId` int(11) NOT NULL,
   `CopiaVideojuegoId` int(11) DEFAULT NULL,
   `VideojuegoId` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ModificacionId`),
-  KEY `modificaciones_ibfk_1` (`TrabajadorId`),
-  KEY `modificaciones_ibfk_2` (`CopiaVideojuegoId`),
-  CONSTRAINT `modificaciones_ibfk_1` FOREIGN KEY (`TrabajadorId`) REFERENCES `trabajadores` (`TrabajadorId`),
-  CONSTRAINT `modificaciones_ibfk_2` FOREIGN KEY (`CopiaVideojuegoId`) REFERENCES `copiasvideojuegos` (`CopiaVideojuegoId`)
+  PRIMARY KEY (`ModificacionId`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

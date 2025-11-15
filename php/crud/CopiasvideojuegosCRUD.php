@@ -8,6 +8,12 @@ class CopiasVideojuegosCRUD{
             $selectSql = "Select * from copiasvideojuegos";
             return mysqli_query($conexion,$selectSql);
         }
+        public static function obtenerCopiasConTitulo() {
+            global $conexion;
+            $selectSql = "select c.* , v.Titulo from copiasvideojuegos c join videojuegos v on c.VideojuegoId = v.VideojuegoId";
+            return mysqli_query($conexion, $selectSql);
+
+        }
         public static function anadirCopiaVideojuego(CopiaVideojuego $copiaVideojuego){
             global $conexion;
             $insertSql = "Insert into copiasvideojuegos (PrecioNuevo,PrecioSeminuevo,PrecioCompraGame,Unidades,VideojuegoId,TiendaId) values (?,?,?,?,?,?)";
@@ -53,7 +59,7 @@ class CopiasVideojuegosCRUD{
         }
         public static function eliminarCopiaVideojuego(int $copiaVideojuegoId){
             global $conexion;
-            $deleteSql = "Delete from copiavideojuegos where CopiaVideojuegoId = ? ";
+            $deleteSql = "Delete from copiasvideojuegos where CopiaVideojuegoId = ? ";
 
             try {
                 $stmt = mysqli_prepare($conexion, $deleteSql);
@@ -76,7 +82,7 @@ class CopiasVideojuegosCRUD{
                 ModificacionesCRUD::anadirModificacion($modificacion);
 
             } catch (Exception $e) {
-                echo "Error al eliminar videojuego: " . $e->getMessage();
+                echo "Error al eliminar copia de videojuego: " . $e->getMessage();
             }
         }
         public static function modificarVideojuego(CopiaVideojuego $copiaVideojuego, int $videojuegoId){

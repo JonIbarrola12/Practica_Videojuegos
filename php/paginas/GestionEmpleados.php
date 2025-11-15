@@ -2,6 +2,7 @@
 require_once("../crud/conexion.php");
 require_once("../crud/TrabajadoresCRUD.php");
 require_once("../clases/Trabajador.php");
+require_once("../crud/TiendaCRUD.php");
 session_start();
 
 // Usuario simulado

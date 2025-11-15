@@ -1,16 +1,16 @@
 <?php
     class CopiaVideojuego{
         //Atributos
-        private int $CopiaVideojuegoId;
+        private ?int $CopiaVideojuegoId;
         private float $PrecioNuevo;
         private float $PrecioSeminuevo;
         private float $PrecioCompraGame;
         private int $Unidades;
-        private int $TiendaId;
-        private int $VideojuegoId;
+        private ?int $TiendaId;
+        private ?int $VideojuegoId;
 
         //Constructor
-        public function __construct(int $pCopiaVideojuegoId = null, float $PprecioNuevo = 0.0,float $pPrecioSeminuevo = 0.0, float $pPrecioCompraGame = 0.0, int $pUnidades = 0, int $pTiendaId = null, int $pVideojuegoId = null ) {
+        public function __construct(?int $pCopiaVideojuegoId = null, float $PprecioNuevo = 0.0,float $pPrecioSeminuevo = 0.0, float $pPrecioCompraGame = 0.0, int $pUnidades = 0, ?int $pTiendaId = null, ?int $pVideojuegoId = null ) {
             $this->CopiaVideojuegoId = $pCopiaVideojuegoId;
             $this->PrecioNuevo = $PprecioNuevo;
             $this->PrecioSeminuevo = $pPrecioSeminuevo;
