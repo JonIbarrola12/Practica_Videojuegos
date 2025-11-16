@@ -9,22 +9,36 @@ session_start();
 
 
 $mensaje = "";
+$sesionActiva = isset($_SESSION['Usuario']);
 
-// Insertar videojuego
+// Insertar copia de VideoJuego
 if (isset($_POST['insertar'])) {
-    $copiaVideojuego = new CopiaVideojuego(null, $_POST['precioNuevo'], $_POST['precioSeminuevo'], $_POST['precioCompraGame'], $_POST['unidades'],$_POST['tiendaId'],$_POST['videojuegoId']);
-    CopiasvideojuegosCRUD::anadirCopiaVideojuego(
-        $copiaVideojuego
-    );
-    $mensaje = "Copia de Videojuego creada correctamente";
+    if ($sesionActiva) {
+        $copiaVideojuego = new CopiaVideojuego(
+            null,
+            $_POST['precioNuevo'],
+            $_POST['precioSeminuevo'],
+            $_POST['precioCompraGame'],
+            $_POST['unidades'],
+            $_POST['tiendaId'],
+            $_POST['videojuegoId']
+        );
+
+        CopiasvideojuegosCRUD::anadirCopiaVideojuego($copiaVideojuego);
+        $mensaje = "Copia de Videojuego creada correctamente";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para insertar copias de videojuegos.";
+    }
 }
 
-// Eliminar videojuego
+// Eliminar copia de videojuego
 if (isset($_POST['eliminar'])) {
-    CopiasVideojuegosCRUD::eliminarCopiaVideojuego(
-        $_POST['copiaVideojuegoId'],
-    );
-    $mensaje = "Copia de Videojuego eliminada correctamente";
+    if ($sesionActiva) {
+        CopiasVideojuegosCRUD::eliminarCopiaVideojuego($_POST['copiaVideojuegoId']);
+        $mensaje = "Copia de Videojuego eliminada correctamente";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para eliminar copias de videojuegos.";
+    }
 }
 
 // Obtener videojuegos actualizados
@@ -32,6 +46,7 @@ $videojuegos = VideojuegosCRUD::recibirRegistros();
 $copiasVideojuegos = CopiasVideojuegosCRUD::obtenerCopiasConTitulo();
 $tiendas = TiendaCRUD::recibirRegistros();
 ?>
+
 <!doctype html>
 <html lang="en">
     <head>
