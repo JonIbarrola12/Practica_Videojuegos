@@ -41,7 +41,7 @@ class VideojuegosCRUD{
                 mysqli_stmt_close($stmt);
                 $videojuegoId = mysqli_insert_id($conexion);
                 $videojuego->setVideojuegoId($videojuegoId);
-                $modificacion = new Modificacion(null,'Insertar Videojuego',$_SESSION['TrabajadorId'],null,$videojuegoId);
+                $modificacion = new Modificacion(null,'Insertar Videojuego',$_SESSION['id'],null,$videojuegoId);
 
                 ModificacionesCRUD::anadirModificacion($modificacion);
             } catch (Exception $e) {
@@ -69,7 +69,7 @@ class VideojuegosCRUD{
                     throw new Exception("Error al ejecutar el DELETE: " . mysqli_stmt_error($stmt));
                 }
                 mysqli_stmt_close($stmt);
-                $modificacion = new Modificacion(null,'Eliminar Videojuego',$_SESSION['TrabajadorId'],null,$videojuegoId);
+                $modificacion = new Modificacion(null,'Eliminar Videojuego',$_SESSION['id'],null,$videojuegoId);
                 ModificacionesCRUD::anadirModificacion($modificacion);
 
             } catch (Exception $e) {
@@ -108,7 +108,7 @@ class VideojuegosCRUD{
                 }
 
                 mysqli_stmt_close($stmt);
-                $modificacion = new Modificacion(null,'Eliminar Videojuego',$_SESSION['TrabajadorId'],null,$videojuegoId);
+                $modificacion = new Modificacion(null,'Eliminar Videojuego',$_SESSION['id'],null,$videojuegoId);
                 ModificacionesCRUD::anadirModificacion($modificacion);
 
             } catch (Exception $e) {

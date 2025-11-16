@@ -5,59 +5,33 @@ require_once("../clases/Trabajador.php");
 require_once("../crud/TiendaCRUD.php");
 session_start();
 
-// Usuario simulado
-$_SESSION['TrabajadorId'] = 2;
 
 $mensaje = "";
 
-// Insertar empleado
 if (isset($_POST['insertar'])) {
-    $nombre = $_POST['nombre'] ?? "";
-    $apellidos = $_POST['apellidos'] ?? "";
-    $dni = $_POST['dni'] ?? "";
-    $fechaNacimiento = isset($_POST['fechaNacimiento']) ? new DateTime($_POST['fechaNacimiento']) : new DateTime(); //obtengo la fecha de nacimiento y creo un objeto datetime, si no existe creo una con la fecha actual
-    $email = $_POST['email'] ?? "";
-    $usuario = $_POST['usuario'] ?? "";
-    $contrasena = $_POST['contrasena'] ?? "";
-    $tiendaId = isset($_POST['tiendaId']) ? (int)$_POST['tiendaId'] : null; //con esto pasamos el valor a entero y si no se envía se asigna null
-
-    $trabajador = new Trabajador(
-        $nombre,
-        $apellidos,
-        $dni,
-        $fechaNacimiento,
-        $email,
-        $usuario,
-        $contrasena,
-        $tiendaId
+    $fechaNacimiento = new DateTime($_POST['fechaNacimiento']);
+    $trabajador = new Trabajador($_POST['nombre'], $_POST['apellidos'], $_POST['dni'], $fechaNacimiento, $_POST['email'], $_POST['usuario'], $_POST['contrasena'], (int)$_POST['tiendaId']);
+    TrabajadoresCRUD::anadirTrabajador(
+        $trabajador
     );
-
-    TrabajadoresCRUD::anadirTrabajador($trabajador);
-    $mensaje = "Empleado '{$nombre}' insertado con éxito.";
+    $mensaje = "Empleado '{$trabajador->getNombre()}' creado correctamente";
 }
+
 
 // Modificar empleado
 if (isset($_POST['modificar'])) {
     $nombreNuevo = $_POST['nombreNuevo'] ?? "";
     $apellidosNuevo = $_POST['apellidosNuevo'] ?? "";
     $dniNuevo = $_POST['dniNuevo'] ?? "";
-    $fechaNacimientoNuevo = isset($_POST['fechaNacimientoNuevo']) ? new DateTime($_POST['fechaNacimientoNuevo']) : new DateTime();
+    $fechaNacimientoNuevo = new DateTime($_POST['fechaNacimientoNuevo']);
     $emailNuevo = $_POST['emailNuevo'] ?? "";
     $usuarioNuevo = $_POST['usuarioNuevo'] ?? "";
-    $tiendaIdNuevo = isset($_POST['tiendaIdNuevo']) ? (int)$_POST['tiendaIdNuevo'] : null;
+    $tiendaIdNuevo = (int)$_POST['tiendaIdNuevo'];
 
-    $trabajador = new Trabajador(
-        $nombreNuevo,
-        $apellidosNuevo,
-        $dniNuevo,
-        $fechaNacimientoNuevo,
-        $emailNuevo,
-        $usuarioNuevo,
-        "",
-        $tiendaIdNuevo
+    $trabajador = new Trabajador($nombreNuevo, $apellidosNuevo, $dniNuevo, $fechaNacimientoNuevo, $emailNuevo, $usuarioNuevo, "", $tiendaIdNuevo);
+    TrabajadoresCRUD::modificarTrabajador(
+        $trabajador, $_POST['usuarioExistente']
     );
-
-    TrabajadoresCRUD::modificarTrabajador($trabajador, $_POST['usuarioExistente']);
     $mensaje = "Empleado '{$_POST['usuarioExistente']}' modificado con éxito.";
 }
 
@@ -101,7 +75,7 @@ $tiendas = TiendaCRUD::recibirRegistros();
         <header>
             <div class="container">
                 <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom">
-                <a href="/" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
+                <a href="index.php" class="d-flex align-items-center col-md-3 mb-2 mb-md-0 text-dark text-decoration-none">
                     <img src="../../images/Game.png" class="img w-25">
                 </a>
                 <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">

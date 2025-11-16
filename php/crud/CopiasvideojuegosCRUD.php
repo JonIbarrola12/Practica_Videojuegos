@@ -50,7 +50,7 @@ class CopiasVideojuegosCRUD{
                 mysqli_stmt_close($stmt);
                 $copiaVideojuegoId = mysqli_insert_id($conexion);
                 $copiaVideojuego->setCopiaVideojuegoId($copiaVideojuegoId);
-                $modificacion = new Modificacion(null,'Insertar Copia de Videojuego',$_SESSION['TrabajadorId'],$copiaVideojuegoId,null);
+                $modificacion = new Modificacion(null,'Insertar Copia de Videojuego',$_SESSION['id'],$copiaVideojuegoId,null);
 
                 ModificacionesCRUD::anadirModificacion($modificacion);
             } catch (Exception $e) {
@@ -78,7 +78,7 @@ class CopiasVideojuegosCRUD{
                     throw new Exception("Error al ejecutar el DELETE: " . mysqli_stmt_error($stmt));
                 }
                 mysqli_stmt_close($stmt);
-                $modificacion = new Modificacion(null,'Eliminar Copia de Videojuego',$_SESSION['TrabajadorId'],$copiaVideojuegoId,null);
+                $modificacion = new Modificacion(null,'Eliminar Copia de Videojuego',$_SESSION['id'],$copiaVideojuegoId,null);
                 ModificacionesCRUD::anadirModificacion($modificacion);
 
             } catch (Exception $e) {
@@ -120,7 +120,7 @@ class CopiasVideojuegosCRUD{
                 }
 
                 mysqli_stmt_close($stmt);
-                $modificacion = new Modificacion(null,'Modificar Copia de Videojuego',$_SESSION['TrabajadorId'],$copiaVideojuegoId,null);
+                $modificacion = new Modificacion(null,'Modificar Copia de Videojuego',$_SESSION['id'],$copiaVideojuegoId,null);
                 ModificacionesCRUD::anadirModificacion($modificacion);
 
             } catch (Exception $e) {
