@@ -74,7 +74,7 @@ $videojuegos = VideojuegosCRUD::recibirRegistros();
                 <?php
                     if (isset($_SESSION['Usuario'])) {
                         echo '
-                        <span class="text-purple fw-bold"> ' . htmlspecialchars($_SESSION['Usuario']) . '</span>
+                        <span class="text-purple fw-bold"> Trabajador: ' . htmlspecialchars($_SESSION['Usuario']) . '</span>
                         <a href="./Login/Logout.php" class="btn btn-outline-danger ms-2">Cerrar Sesión</a>';
                     } else {
                         echo '

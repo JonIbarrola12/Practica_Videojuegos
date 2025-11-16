@@ -69,6 +69,7 @@ if (isset($_POST['eliminar'])) {
 
 // Obtener empleados actualizados
 $empleados = TrabajadoresCRUD::recibirRegistros();
+$tiendas = TiendaCRUD::recibirRegistros();
 ?>
 
 <!doctype html>
@@ -114,7 +115,7 @@ $empleados = TrabajadoresCRUD::recibirRegistros();
                 <?php
                     if (isset($_SESSION['Usuario'])) {
                         echo '
-                        <span class="text-purple fw-bold"> ' . htmlspecialchars($_SESSION['Usuario']) . '</span>
+                        <span class="text-purple fw-bold"> Trabajador: ' . htmlspecialchars($_SESSION['Usuario']) . '</span>
                         <a href="./Login/Logout.php" class="btn btn-outline-danger ms-2">Cerrar Sesión</a>';
                     } else {
                         echo '
@@ -143,7 +144,7 @@ $empleados = TrabajadoresCRUD::recibirRegistros();
                 <label for="dni">DNI</label>
                 <input type="text" name="dni" id="dni" placeholder="Ej: 12345678A" class="form-control mb-2" required>
 
-                <label for="fechaNacimiento">Fecha de Creación</label>
+                <label for="fechaNacimiento">Fecha de Nacimiento</label>
                 <input type="date" name="fechaNacimiento" id="fechaNacimiento" class="form-control mb-2" required>
 
                 <label for="email">Correo electrónico</label>
@@ -155,8 +156,18 @@ $empleados = TrabajadoresCRUD::recibirRegistros();
                 <label for="contrasena">Contraseña</label>
                 <input type="password" name="contrasena" id="contrasena" placeholder="********" class="form-control mb-2" required>
 
-                <label for="tiendaId">ID de Tienda</label>
-                <input type="number" name="tiendaId" id="tiendaId" placeholder="Ej: 1" class="form-control mb-2" required>
+                <label for="tiendaId">Tienda</label>
+                <select name="tiendaId" class="form-select mb-2" required>
+                    <option value="">Seleccione una Tienda</option>
+                    <?php 
+                    if ($tiendas && mysqli_num_rows($tiendas) > 0):
+                        while ($row = $tiendas->fetch_assoc()): ?>
+                            <option value="<?= $row['TiendaId'] ?>"><?= "Direccion: " . htmlspecialchars($row['Direccion']) . " Pais: " . htmlspecialchars($row['Pais']) ?></option>
+                        <?php endwhile;
+                    else: ?>
+                        <option value="">No hay tiendas disponibles</option>
+                    <?php endif; ?>
+                </select>
 
                 <button type="submit" name="insertar" class="btn btn-success w-100">Insertar Empleado</button>
             </form>
