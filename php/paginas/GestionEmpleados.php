@@ -8,40 +8,72 @@ session_start();
 
 $mensaje = "";
 
+$sesionActiva = isset($_SESSION['Usuario']);
+
+// Insertar Empleado
 if (isset($_POST['insertar'])) {
-    $fechaNacimiento = new DateTime($_POST['fechaNacimiento']);
-    $trabajador = new Trabajador($_POST['nombre'], $_POST['apellidos'], $_POST['dni'], $fechaNacimiento, $_POST['email'], $_POST['usuario'], $_POST['contrasena'], (int)$_POST['tiendaId']);
-    TrabajadoresCRUD::anadirTrabajador(
-        $trabajador
-    );
-    $mensaje = "Empleado '{$trabajador->getNombre()}' creado correctamente";
+    if ($sesionActiva) {
+        $fechaNacimiento = new DateTime($_POST['fechaNacimiento']);
+        $trabajador = new Trabajador(
+            $_POST['nombre'],
+            $_POST['apellidos'],
+            $_POST['dni'],
+            $fechaNacimiento,
+            $_POST['email'],
+            $_POST['usuario'],
+            $_POST['contrasena'],
+            (int)$_POST['tiendaId']
+        );
+
+        TrabajadoresCRUD::anadirTrabajador($trabajador);
+
+        $mensaje = "Empleado '{$trabajador->getNombre()}' creado correctamente";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para insertar empleados.";
+    }
 }
 
-
-// Modificar empleado
+// Modificar Empleado
 if (isset($_POST['modificar'])) {
-    $nombreNuevo = $_POST['nombreNuevo'] ?? "";
-    $apellidosNuevo = $_POST['apellidosNuevo'] ?? "";
-    $dniNuevo = $_POST['dniNuevo'] ?? "";
-    $fechaNacimientoNuevo = new DateTime($_POST['fechaNacimientoNuevo']);
-    $emailNuevo = $_POST['emailNuevo'] ?? "";
-    $usuarioNuevo = $_POST['usuarioNuevo'] ?? "";
-    $tiendaIdNuevo = (int)$_POST['tiendaIdNuevo'];
+    if ($sesionActiva) {
+        $nombreNuevo = $_POST['nombreNuevo'] ?? "";
+        $apellidosNuevo = $_POST['apellidosNuevo'] ?? "";
+        $dniNuevo = $_POST['dniNuevo'] ?? "";
+        $fechaNacimientoNuevo = new DateTime($_POST['fechaNacimientoNuevo']);
+        $emailNuevo = $_POST['emailNuevo'] ?? "";
+        $usuarioNuevo = $_POST['usuarioNuevo'] ?? "";
+        $tiendaIdNuevo = (int)$_POST['tiendaIdNuevo'];
 
-    $trabajador = new Trabajador($nombreNuevo, $apellidosNuevo, $dniNuevo, $fechaNacimientoNuevo, $emailNuevo, $usuarioNuevo, "", $tiendaIdNuevo);
-    TrabajadoresCRUD::modificarTrabajador(
-        $trabajador, $_POST['usuarioExistente']
-    );
-    $mensaje = "Empleado '{$_POST['usuarioExistente']}' modificado con éxito.";
+        $trabajador = new Trabajador(
+            $nombreNuevo,
+            $apellidosNuevo,
+            $dniNuevo,
+            $fechaNacimientoNuevo,
+            $emailNuevo,
+            $usuarioNuevo,
+            "",   // No cambiamos contraseña
+            $tiendaIdNuevo
+        );
+
+        TrabajadoresCRUD::modificarTrabajador($trabajador, $_POST['usuarioExistente']);
+
+        $mensaje = "Empleado '{$_POST['usuarioExistente']}' modificado con éxito.";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para modificar empleados.";
+    }
 }
 
-// Eliminar empleado
+// Eliminar Empleado
 if (isset($_POST['eliminar'])) {
-    TrabajadoresCRUD::eliminarTrabajador($_POST['usuarioEliminar']);
-    $mensaje = "Empleado eliminado con éxito.";
+    if ($sesionActiva) {
+        TrabajadoresCRUD::eliminarTrabajador($_POST['usuarioEliminar']);
+        $mensaje = "Empleado eliminado con éxito.";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para eliminar empleados.";
+    }
 }
 
-// Obtener empleados actualizados
+// Obtener empleados y tiendas actualizados
 $empleados = TrabajadoresCRUD::recibirRegistros();
 $tiendas = TiendaCRUD::recibirRegistros();
 ?>

@@ -9,23 +9,29 @@ session_start();
 
 $mensaje = "";
 
+$sesionActiva = isset($_SESSION['Usuario']);
+
+
 // Insertar videojuego
 if (isset($_POST['insertar'])) {
-    $videojuego = new Videojuego(null, $_POST['titulo'], $_POST['anio'], $_POST['estudio'], $_POST['plataforma']);
-    VideojuegosCRUD::anadirVideojuego(
-        $videojuego
-    );
-    $mensaje = "Videojuego " . $videojuego->getTitulo() . " creado correctamente";
+    if ($sesionActiva) {
+        $videojuego = new Videojuego(null, $_POST['titulo'], $_POST['anio'], $_POST['estudio'], $_POST['plataforma']);
+        VideojuegosCRUD::anadirVideojuego($videojuego);
+        $mensaje = "Videojuego " . $videojuego->getTitulo() . " creado correctamente";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para añadir videojuegos.";
+    }
 }
 
 // Eliminar videojuego
 if (isset($_POST['eliminar'])) {
-    VideojuegosCRUD::eliminarVideojuego(
-        $_POST['videojuegoId'],
-    );
-    $mensaje = "Videojuego eliminado correctamente";
+    if ($sesionActiva) {
+        VideojuegosCRUD::eliminarVideojuego($_POST['videojuegoId']);
+        $mensaje = "Videojuego eliminado correctamente";
+    } else {
+        $mensaje = "⚠️ Debes iniciar sesión para eliminar videojuegos.";
+    }
 }
-
 // Obtener videojuegos actualizados
 $videojuegos = VideojuegosCRUD::recibirRegistros();
 ?>
