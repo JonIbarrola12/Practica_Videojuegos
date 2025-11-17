@@ -63,11 +63,17 @@ if (isset($_POST['modificar'])) {
     }
 }
 
-// Eliminar Empleado
 if (isset($_POST['eliminar'])) {
     if ($sesionActiva) {
-        TrabajadoresCRUD::eliminarTrabajador($_POST['usuarioEliminar']);
-        $mensaje = "Empleado eliminado con éxito.";
+
+        // Verificar si intenta eliminarse a sí mismo
+        if ($_POST['usuarioEliminar'] === $_SESSION['Usuario']) {
+            $mensaje = "⚠️ No puedes eliminar tu propio usuario mientras tienes sesión activa.";
+        } else {
+            TrabajadoresCRUD::eliminarTrabajador($_POST['usuarioEliminar']);
+            $mensaje = "Empleado eliminado con éxito.";
+        }
+
     } else {
         $mensaje = "⚠️ Debes iniciar sesión para eliminar empleados.";
     }
