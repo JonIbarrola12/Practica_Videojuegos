@@ -83,7 +83,8 @@ $videojuegos = VideojuegosCRUD::recibirRegistros();
                         <a href="./Login/Logout.php" class="btn btn-outline-danger ms-2">Cerrar Sesión</a>';
                     } else {
                         echo '
-                        <a href="./Login/Index.php" class="btn btn-outline-purple me-2">Iniciar Sesión</a>';
+                        <a href="./Login/Index.php" class="btn btn-outline-purple me-2">Iniciar Sesión</a>
+                        <a href="./Login/Index.php" class="btn btn-purple me-2">Registrarse</a>';
                     }
                 ?>
                 </div>
